@@ -1,8 +1,8 @@
-/* Cyberstrike browser control styles */
+/* BinaryStrike browser control styles */
 
-/* Orange border around page */
+/* Analysis border around page */
 html {
-  border: 3px solid #f59e0b !important;
+  border: 3px solid #2fffa2 !important;
   box-sizing: border-box !important;
   min-height: 100vh;
 }
@@ -14,8 +14,8 @@ html {
   left: 0 !important;
   right: 0 !important;
   z-index: 2147483647 !important;
-  background: linear-gradient(to bottom, #fef3c7, #fde68a) !important;
-  border-bottom: 1px solid #f59e0b !important;
+  background: linear-gradient(to bottom, #06100f, #0d1e1b) !important;
+  border-bottom: 1px solid #2fffa2 !important;
   padding: 8px 16px !important;
   display: flex !important;
   align-items: center !important;
@@ -23,7 +23,7 @@ html {
   gap: 12px !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   font-size: 13px !important;
-  color: #78350f !important;
+  color: #d9fff0 !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -32,18 +32,18 @@ html {
 }
 
 .cyberstrike-btn {
-  background: #e5e7eb !important;
+  background: #12332b !important;
   border: none !important;
   border-radius: 4px !important;
   padding: 4px 12px !important;
   font-size: 12px !important;
-  color: #374151 !important;
+  color: #d9fff0 !important;
   cursor: pointer !important;
   font-family: inherit !important;
 }
 
 .cyberstrike-btn:hover {
-  background: #d1d5db !important;
+  background: #195344 !important;
 }
 
 /* Push body content down to account for banner */

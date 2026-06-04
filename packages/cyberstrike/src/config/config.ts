@@ -92,6 +92,18 @@ export namespace Config {
         type: "local",
         command: ["npx", "-y", "osint-mcp-server"],
       },
+      "pyghidra": {
+        type: "local",
+        command: ["uvx", "pyghidra-mcp"],
+        enabled: false,
+        timeout: 30_000,
+      },
+      "ida-mcp-rs": {
+        type: "local",
+        command: ["ida-mcp"],
+        enabled: false,
+        timeout: 30_000,
+      },
     }
 
     for (const [key, value] of Object.entries(auth)) {

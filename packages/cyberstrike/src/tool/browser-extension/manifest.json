@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Cyberstrike",
+  "name": "BinaryStrike",
   "version": "1.0.0",
-  "description": "Cyberstrike browser automation indicator",
+  "description": "BinaryStrike browser automation indicator",
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

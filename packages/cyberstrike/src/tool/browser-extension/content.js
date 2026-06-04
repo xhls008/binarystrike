@@ -1,4 +1,4 @@
-// Cyberstrike browser control indicator
+// BinaryStrike browser control indicator
 ;(function () {
   // Only run in top frame
   if (window !== window.top) return
@@ -7,7 +7,7 @@
   const banner = document.createElement("div")
   banner.id = "cyberstrike-banner"
   banner.innerHTML = `
-    <span class="cyberstrike-text">"Cyberstrike" started debugging this browser</span>
+    <span class="cyberstrike-text">"BinaryStrike" started debugging this browser</span>
     <button class="cyberstrike-btn" id="cyberstrike-cancel">Cancel</button>
   `
 

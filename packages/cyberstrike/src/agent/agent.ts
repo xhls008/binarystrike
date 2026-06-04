@@ -17,6 +17,7 @@ import PROMPT_WEB_APPLICATION from "./prompt/web-application.txt"
 import PROMPT_CLOUD_SECURITY from "./prompt/cloud-security.txt"
 import PROMPT_INTERNAL_NETWORK from "./prompt/internal-network.txt"
 import PROMPT_MOBILE_APPLICATION from "./prompt/mobile-application.txt"
+import PROMPT_BINARY_SECURITY from "./prompt/binary-security.txt"
 import PROMPT_NORMALIZE_REQUEST from "./prompt/normalize-request.txt"
 import PROMPT_CYBERSTRIKE from "./prompt/cyberstrike.txt"
 import PROMPT_GENERAL from "./prompt/general.txt"
@@ -328,6 +329,30 @@ export namespace Agent {
             read: "allow",
             glob: "allow",
             grep: "allow",
+            report_vulnerability: "allow",
+          }),
+          user,
+        ),
+        options: {},
+      },
+      "binary-security": {
+        name: "binary-security",
+        description:
+          "Binary vulnerability research specialist. Native binaries, firmware, reverse engineering, SCA, call graph triage, and crash root-cause analysis.",
+        mode: "subagent",
+        native: true,
+        color: "green",
+        prompt: PROMPT_BINARY_SECURITY,
+        permission: PermissionNext.merge(
+          defaults,
+          PermissionNext.fromConfig({
+            question: "allow",
+            bash: "allow",
+            read: "allow",
+            glob: "allow",
+            grep: "allow",
+            webfetch: "allow",
+            websearch: "allow",
             report_vulnerability: "allow",
           }),
           user,
