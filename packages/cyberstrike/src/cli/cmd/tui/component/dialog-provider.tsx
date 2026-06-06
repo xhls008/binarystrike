@@ -228,9 +228,7 @@ function ApiMethod(props: ApiMethodProps) {
       description={
         props.providerID === "cyberstrike" ? (
           <box gap={1}>
-            <text fg={theme.textMuted}>
-              BinaryStrike can use a bundled compatible provider with a single API key.
-            </text>
+            <text fg={theme.textMuted}>BinaryStrike can use a bundled compatible provider with a single API key.</text>
           </box>
         ) : undefined
       }

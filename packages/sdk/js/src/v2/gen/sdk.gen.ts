@@ -298,7 +298,7 @@ export class Config extends HeyApiClient {
   /**
    * Get global configuration
    *
-   * Retrieve the current global CyberStrike configuration settings and preferences.
+   * Retrieve the current global BinaryStrike configuration settings and preferences.
    */
   public get<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalConfigGetResponses, unknown, ThrowOnError>({
@@ -310,7 +310,7 @@ export class Config extends HeyApiClient {
   /**
    * Update global configuration
    *
-   * Update global CyberStrike configuration settings and preferences.
+   * Update global BinaryStrike configuration settings and preferences.
    */
   public update<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -336,7 +336,7 @@ export class Global extends HeyApiClient {
   /**
    * Get health
    *
-   * Get health information about the CyberStrike server.
+   * Get health information about the BinaryStrike server.
    */
   public health<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalHealthResponses, unknown, ThrowOnError>({
@@ -348,7 +348,7 @@ export class Global extends HeyApiClient {
   /**
    * Check for updates
    *
-   * Check if a newer version of CyberStrike is available.
+   * Check if a newer version of BinaryStrike is available.
    */
   public versionCheck<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).get<GlobalVersionCheckResponses, unknown, ThrowOnError>({
@@ -360,7 +360,7 @@ export class Global extends HeyApiClient {
   /**
    * Get global events
    *
-   * Subscribe to global events from the CyberStrike system using server-sent events.
+   * Subscribe to global events from the BinaryStrike system using server-sent events.
    */
   public event<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).sse.get<GlobalEventResponses, unknown, ThrowOnError>({
@@ -372,7 +372,7 @@ export class Global extends HeyApiClient {
   /**
    * Dispose instance
    *
-   * Clean up and dispose all CyberStrike instances, releasing all resources.
+   * Clean up and dispose all BinaryStrike instances, releasing all resources.
    */
   public dispose<ThrowOnError extends boolean = false>(options?: Options<never, ThrowOnError>) {
     return (options?.client ?? this.client).post<GlobalDisposeResponses, unknown, ThrowOnError>({
@@ -452,7 +452,7 @@ export class Project extends HeyApiClient {
   /**
    * List all projects
    *
-   * Get a list of projects that have been opened with CyberStrike.
+   * Get a list of projects that have been opened with BinaryStrike.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -471,7 +471,7 @@ export class Project extends HeyApiClient {
   /**
    * Get current project
    *
-   * Retrieve the currently active project that CyberStrike is working with.
+   * Retrieve the currently active project that BinaryStrike is working with.
    */
   public current<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -542,7 +542,7 @@ export class Pty extends HeyApiClient {
   /**
    * List PTY sessions
    *
-   * Get a list of all active pseudo-terminal (PTY) sessions managed by CyberStrike.
+   * Get a list of all active pseudo-terminal (PTY) sessions managed by BinaryStrike.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -740,7 +740,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Get configuration
    *
-   * Retrieve the current CyberStrike configuration settings and preferences.
+   * Retrieve the current BinaryStrike configuration settings and preferences.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -759,7 +759,7 @@ export class Config2 extends HeyApiClient {
   /**
    * Update configuration
    *
-   * Update CyberStrike configuration settings and preferences.
+   * Update BinaryStrike configuration settings and preferences.
    */
   public update<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1022,7 +1022,7 @@ export class Session extends HeyApiClient {
   /**
    * List sessions
    *
-   * Get a list of all CyberStrike sessions, sorted by most recently updated.
+   * Get a list of all BinaryStrike sessions, sorted by most recently updated.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1058,7 +1058,7 @@ export class Session extends HeyApiClient {
   /**
    * Create session
    *
-   * Create a new CyberStrike session for interacting with AI assistants and managing conversations.
+   * Create a new BinaryStrike session for interacting with AI assistants and managing conversations.
    */
   public create<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -1273,7 +1273,7 @@ export class Session extends HeyApiClient {
   /**
    * Get session
    *
-   * Retrieve detailed information about a specific CyberStrike session.
+   * Retrieve detailed information about a specific BinaryStrike session.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters: {
@@ -3913,7 +3913,7 @@ export class Instance extends HeyApiClient {
   /**
    * Dispose instance
    *
-   * Clean up and dispose the current CyberStrike instance, releasing all resources.
+   * Clean up and dispose the current BinaryStrike instance, releasing all resources.
    */
   public dispose<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3934,7 +3934,7 @@ export class Path extends HeyApiClient {
   /**
    * Get paths
    *
-   * Retrieve the current working directory and related path information for the CyberStrike instance.
+   * Retrieve the current working directory and related path information for the BinaryStrike instance.
    */
   public get<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -3976,7 +3976,7 @@ export class Command extends HeyApiClient {
   /**
    * List commands
    *
-   * Get a list of all available commands in the CyberStrike system.
+   * Get a list of all available commands in the BinaryStrike system.
    */
   public list<ThrowOnError extends boolean = false>(
     parameters?: {
@@ -4040,7 +4040,7 @@ export class App extends HeyApiClient {
   /**
    * List agents
    *
-   * Get a list of all available AI agents in the CyberStrike system.
+   * Get a list of all available AI agents in the BinaryStrike system.
    */
   public agents<ThrowOnError extends boolean = false>(
     parameters?: {

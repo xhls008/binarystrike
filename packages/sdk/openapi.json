@@ -10,7 +10,7 @@
       "get": {
         "operationId": "global.health",
         "summary": "Get health",
-        "description": "Get health information about the CyberStrike server.",
+        "description": "Get health information about the BinaryStrike server.",
         "responses": {
           "200": {
             "description": "Health information",
@@ -45,7 +45,7 @@
       "get": {
         "operationId": "global.versionCheck",
         "summary": "Check for updates",
-        "description": "Check if a newer version of CyberStrike is available.",
+        "description": "Check if a newer version of BinaryStrike is available.",
         "responses": {
           "200": {
             "description": "Version check result",
@@ -82,7 +82,7 @@
       "get": {
         "operationId": "global.event",
         "summary": "Get global events",
-        "description": "Subscribe to global events from the CyberStrike system using server-sent events.",
+        "description": "Subscribe to global events from the BinaryStrike system using server-sent events.",
         "responses": {
           "200": {
             "description": "Event stream",
@@ -144,7 +144,7 @@
       "get": {
         "operationId": "global.config.get",
         "summary": "Get global configuration",
-        "description": "Retrieve the current global CyberStrike configuration settings and preferences.",
+        "description": "Retrieve the current global BinaryStrike configuration settings and preferences.",
         "responses": {
           "200": {
             "description": "Get global config info",
@@ -167,7 +167,7 @@
       "patch": {
         "operationId": "global.config.update",
         "summary": "Update global configuration",
-        "description": "Update global CyberStrike configuration settings and preferences.",
+        "description": "Update global BinaryStrike configuration settings and preferences.",
         "responses": {
           "200": {
             "description": "Successfully updated global config",
@@ -211,7 +211,7 @@
       "post": {
         "operationId": "global.dispose",
         "summary": "Dispose instance",
-        "description": "Clean up and dispose all CyberStrike instances, releasing all resources.",
+        "description": "Clean up and dispose all BinaryStrike instances, releasing all resources.",
         "responses": {
           "200": {
             "description": "Global disposed",
@@ -342,7 +342,7 @@
           }
         ],
         "summary": "List all projects",
-        "description": "Get a list of projects that have been opened with CyberStrike.",
+        "description": "Get a list of projects that have been opened with BinaryStrike.",
         "responses": {
           "200": {
             "description": "List of projects",
@@ -379,7 +379,7 @@
           }
         ],
         "summary": "Get current project",
-        "description": "Retrieve the currently active project that CyberStrike is working with.",
+        "description": "Retrieve the currently active project that BinaryStrike is working with.",
         "responses": {
           "200": {
             "description": "Current project information",
@@ -512,7 +512,7 @@
           }
         ],
         "summary": "List PTY sessions",
-        "description": "Get a list of all active pseudo-terminal (PTY) sessions managed by CyberStrike.",
+        "description": "Get a list of all active pseudo-terminal (PTY) sessions managed by BinaryStrike.",
         "responses": {
           "200": {
             "description": "List of sessions",
@@ -856,7 +856,7 @@
           }
         ],
         "summary": "Get configuration",
-        "description": "Retrieve the current CyberStrike configuration settings and preferences.",
+        "description": "Retrieve the current BinaryStrike configuration settings and preferences.",
         "responses": {
           "200": {
             "description": "Get config info",
@@ -888,7 +888,7 @@
           }
         ],
         "summary": "Update configuration",
-        "description": "Update CyberStrike configuration settings and preferences.",
+        "description": "Update BinaryStrike configuration settings and preferences.",
         "responses": {
           "200": {
             "description": "Successfully updated config",
@@ -1362,7 +1362,7 @@
           }
         ],
         "summary": "List sessions",
-        "description": "Get a list of all CyberStrike sessions, sorted by most recently updated.",
+        "description": "Get a list of all BinaryStrike sessions, sorted by most recently updated.",
         "responses": {
           "200": {
             "description": "List of sessions",
@@ -1397,7 +1397,7 @@
           }
         ],
         "summary": "Create session",
-        "description": "Create a new CyberStrike session for interacting with AI assistants and managing conversations.",
+        "description": "Create a new BinaryStrike session for interacting with AI assistants and managing conversations.",
         "responses": {
           "200": {
             "description": "Successfully created session",
@@ -1799,7 +1799,7 @@
           }
         ],
         "summary": "Get session",
-        "description": "Retrieve detailed information about a specific CyberStrike session.",
+        "description": "Retrieve detailed information about a specific BinaryStrike session.",
         "tags": ["Session"],
         "responses": {
           "200": {
@@ -7258,7 +7258,7 @@
           }
         ],
         "summary": "Dispose instance",
-        "description": "Clean up and dispose the current CyberStrike instance, releasing all resources.",
+        "description": "Clean up and dispose the current BinaryStrike instance, releasing all resources.",
         "responses": {
           "200": {
             "description": "Instance disposed",
@@ -7292,7 +7292,7 @@
           }
         ],
         "summary": "Get paths",
-        "description": "Retrieve the current working directory and related path information for the CyberStrike instance.",
+        "description": "Retrieve the current working directory and related path information for the BinaryStrike instance.",
         "responses": {
           "200": {
             "description": "Path",
@@ -7360,7 +7360,7 @@
           }
         ],
         "summary": "List commands",
-        "description": "Get a list of all available commands in the CyberStrike system.",
+        "description": "Get a list of all available commands in the BinaryStrike system.",
         "responses": {
           "200": {
             "description": "List of commands",
@@ -7474,7 +7474,7 @@
           }
         ],
         "summary": "List agents",
-        "description": "Get a list of all available AI agents in the CyberStrike system.",
+        "description": "Get a list of all available AI agents in the BinaryStrike system.",
         "responses": {
           "200": {
             "description": "List of agents",
