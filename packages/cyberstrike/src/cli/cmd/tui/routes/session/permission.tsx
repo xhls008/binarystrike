@@ -147,12 +147,12 @@ export function PermissionPrompt(props: { request: PermissionRequest }) {
           body={
             <Switch>
               <Match when={props.request.always.length === 1 && props.request.always[0] === "*"}>
-                <TextBody title={"This will allow " + props.request.permission + " until CyberStrike is restarted."} />
+                <TextBody title={"This will allow " + props.request.permission + " until BinaryStrike is restarted."} />
               </Match>
               <Match when={true}>
                 <box paddingLeft={1} gap={1}>
                   <text fg={theme.textMuted}>
-                    This will allow the following patterns until CyberStrike is restarted
+                    This will allow the following patterns until BinaryStrike is restarted
                   </text>
                   <box>
                     <For each={props.request.always}>
@@ -336,7 +336,7 @@ function RejectPrompt(props: { onConfirm: (message: string) => void; onCancel: (
           <text fg={theme.text}>Reject permission</text>
         </box>
         <box paddingLeft={1}>
-          <text fg={theme.textMuted}>Tell CyberStrike what to do differently</text>
+          <text fg={theme.textMuted}>Tell BinaryStrike what to do differently</text>
         </box>
       </box>
       <box

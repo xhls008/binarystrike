@@ -812,7 +812,7 @@ export namespace Provider {
     return {
       id: provider.id,
       source: "custom",
-      name: provider.name,
+      name: provider.id === "cyberstrike" ? "BinaryStrike" : provider.name,
       env: provider.env ?? [],
       options: {},
       models: mapValues(provider.models, (model) => fromModelsDevModel(provider, model)),

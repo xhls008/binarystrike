@@ -31,8 +31,13 @@ Fuzzing is intentionally excluded from this phase.
 
 - Added `binary-security` native subagent.
 - Added disabled-by-default binary MCP templates:
+  - `vuln_kb`
   - `pyghidra`
+  - `ghidramcp`
+  - `ida-pro-mcp`
+  - `ida-mcp`
   - `ida-mcp-rs`
+  - `gdb-mcp`
 - Added architecture and MCP integration notes:
   - `docs/binarystrike-architecture.md`
   - `docs/binary-mcp-integrations.md`

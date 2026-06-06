@@ -45,7 +45,7 @@ export namespace ProviderError {
 
   function error(providerID: string, error: APICallError) {
     if (providerID.includes("github-copilot") && error.statusCode === 403) {
-      return "Please reauthenticate with the copilot provider to ensure your credentials work properly with CyberStrike."
+      return "Please reauthenticate with the copilot provider to ensure your credentials work properly with BinaryStrike."
     }
 
     return error.message

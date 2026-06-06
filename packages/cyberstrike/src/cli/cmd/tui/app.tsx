@@ -261,20 +261,20 @@ function App() {
     if (!terminalTitleEnabled() || Flag.CYBERSTRIKE_DISABLE_TERMINAL_TITLE) return
 
     if (route.data.type === "home") {
-      renderer.setTerminalTitle("CyberStrike")
+      renderer.setTerminalTitle("BinaryStrike")
       return
     }
 
     if (route.data.type === "session") {
       const session = sync.session.get(route.data.sessionID)
       if (!session || SessionApi.isDefaultTitle(session.title)) {
-        renderer.setTerminalTitle("CyberStrike")
+        renderer.setTerminalTitle("BinaryStrike")
         return
       }
 
       // Truncate title to 40 chars max
       const title = session.title.length > 40 ? session.title.slice(0, 37) + "..." : session.title
-      renderer.setTerminalTitle(`OC | ${title}`)
+      renderer.setTerminalTitle(`BinaryStrike | ${title}`)
     }
   })
 
@@ -673,7 +673,7 @@ function App() {
         DialogAlert.show(
           dialog,
           "Warning",
-          "While openrouter is a convenient way to access LLMs your request will often be routed to subpar providers that do not work well in our testing.\n\nFor reliable access to models check out CyberStrike Zen\nhttps://cyberstrike.io/zen",
+          "While openrouter is a convenient way to access LLMs your request will often be routed to subpar providers that do not work well in our testing.\n\nFor reliable access to models configure a dedicated BinaryStrike provider.",
         ).then(() => kv.set("openrouter_warning", true))
       })
     }
@@ -792,7 +792,7 @@ function ErrorComponent(props: {
   })
   const [copied, setCopied] = createSignal(false)
 
-  const issueURL = new URL("https://github.com/CyberStrikeus/CyberStrike/issues/new?template=bug-report.yml")
+  const issueURL = new URL("https://github.com/xhls008/binarystrike/issues/new?template=bug-report.yml")
 
   // Choose safe fallback colors per mode since theme context may not be available
   const isLight = props.mode === "light"

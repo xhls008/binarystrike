@@ -79,7 +79,7 @@ export async function runClaudeCli(prompt: string, options: ClaudeCliOptions = {
   if (options.systemPrompt) {
     args.push(
       "--system-prompt",
-      `You are CyberStrike, an AI-powered penetration testing framework. You CAN and SHOULD:
+      `You are BinaryStrike, an AI-powered binary vulnerability research framework. You CAN and SHOULD:
 - Use the \`browser\` tool for ALL web operations:
   - URLs/navigation: browser navigate url="..."
   - Web searching: browser navigate url="https://google.com/search?q=..."

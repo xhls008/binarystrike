@@ -16,7 +16,7 @@ export const ConfigRoutes = lazy(() =>
       "/",
       describeRoute({
         summary: "Get configuration",
-        description: "Retrieve the current CyberStrike configuration settings and preferences.",
+        description: "Retrieve the current BinaryStrike configuration settings and preferences.",
         operationId: "config.get",
         responses: {
           200: {
@@ -37,7 +37,7 @@ export const ConfigRoutes = lazy(() =>
       "/",
       describeRoute({
         summary: "Update configuration",
-        description: "Update CyberStrike configuration settings and preferences.",
+        description: "Update BinaryStrike configuration settings and preferences.",
         operationId: "config.update",
         responses: {
           200: {

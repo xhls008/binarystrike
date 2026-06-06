@@ -9,15 +9,48 @@ BinaryStrike should integrate reverse-engineering tools through MCP instead of e
 ```jsonc
 {
   "mcp": {
+    "vuln_kb": {
+      "type": "local",
+      "command": ["uvx", "eip-mcp"],
+      "enabled": false,
+      "timeout": 30000,
+    },
     "pyghidra": {
       "type": "local",
       "command": ["uvx", "pyghidra-mcp"],
       "enabled": false,
       "timeout": 30000,
     },
+    "ghidramcp": {
+      "type": "local",
+      "command": ["mcp_bridge", "--host", "localhost", "--port", "8765"],
+      "environment": {
+        "GHIDRA_API_KEY": "",
+      },
+      "enabled": false,
+      "timeout": 30000,
+    },
+    "ida-pro-mcp": {
+      "type": "local",
+      "command": ["ida-pro-mcp"],
+      "enabled": false,
+      "timeout": 30000,
+    },
+    "ida-mcp": {
+      "type": "remote",
+      "url": "http://127.0.0.1:11338/mcp",
+      "enabled": false,
+      "timeout": 30000,
+    },
     "ida-mcp-rs": {
       "type": "local",
       "command": ["ida-mcp"],
+      "enabled": false,
+      "timeout": 30000,
+    },
+    "gdb-mcp": {
+      "type": "remote",
+      "url": "http://127.0.0.1:3333/sse",
       "enabled": false,
       "timeout": 30000,
     },
@@ -42,19 +75,25 @@ Enable a server from the TUI MCP dialog, or override it in `cyberstrike.jsonc` /
 
 ## Candidate Open-Source MCP Projects
 
-| Project                     | Backend         | Integration Mode          | Notes                                                                       |
-| --------------------------- | --------------- | ------------------------- | --------------------------------------------------------------------------- |
-| `mrexodia/ida-pro-mcp`      | IDA Pro         | Local MCP server/plugin   | Good candidate for interactive IDA databases. Requires local IDA setup.     |
-| `blacktop/ida-mcp-rs`       | IDA Pro         | Local MCP server          | Rust implementation; good candidate for packaged local server flow.         |
-| `13bm/GhidraMCP`            | Ghidra          | Ghidra extension/server   | Good candidate for GUI-assisted Ghidra projects.                            |
-| `clearbluejar/pyghidra-mcp` | Ghidra/PyGhidra | Local stdio MCP via `uvx` | Best first default candidate because it can be launched as a local command. |
+| Project                     | Backend          | Integration Mode             | Notes                                                                             |
+| --------------------------- | ---------------- | ---------------------------- | --------------------------------------------------------------------------------- |
+| `mrexodia/ida-pro-mcp`      | IDA Pro          | Local MCP server/plugin      | Good candidate for interactive IDA databases. Requires local IDA setup.           |
+| `jelasin/ida-mcp`           | IDA Pro          | Local plugin plus HTTP proxy | Good candidate when IDA is already running and exposing `127.0.0.1:11338/mcp`.    |
+| `blacktop/ida-mcp-rs`       | IDA Pro          | Local MCP server             | Rust implementation; good candidate for packaged local server flow.               |
+| `13bm/GhidraMCP`            | Ghidra           | Ghidra extension/server      | Good candidate for GUI-assisted Ghidra projects.                                  |
+| `clearbluejar/pyghidra-mcp` | Ghidra/PyGhidra  | Local stdio MCP via `uvx`    | Best first default candidate because it can be launched as a local command.       |
+| `jtang613/gdb-mcp`          | GDB              | GDB-hosted SSE MCP server    | Good candidate for live debugger state. Start it from inside GDB before enabling. |
+| `eip-mcp`                   | Vulnerability KB | Local stdio MCP via `uvx`    | CVE/exploit intelligence backend for vulnerability context enrichment.            |
 
 Reference links:
 
 - https://github.com/mrexodia/ida-pro-mcp
+- https://github.com/jelasin/ida-mcp
 - https://github.com/blacktop/ida-mcp-rs
 - https://github.com/13bm/GhidraMCP
 - https://github.com/clearbluejar/pyghidra-mcp
+- https://github.com/jtang613/gdb-mcp
+- https://pypi.org/project/eip-mcp/
 
 ## Recommended Tool Contract
 
@@ -108,7 +147,7 @@ finding_evidence
 
 ## Operational Constraints
 
-- Keep IDA/Ghidra servers disabled by default.
+- Keep IDA/Ghidra/GDB/vulnerability-KB servers disabled by default.
 - Do not run unknown binaries unless the user opts into sandboxed execution.
 - Store decompiler output as artifacts and summarize it in the LLM context.
 - Do not add fuzzing MCPs in this phase.

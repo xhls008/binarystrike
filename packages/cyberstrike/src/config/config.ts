@@ -92,15 +92,48 @@ export namespace Config {
         type: "local",
         command: ["npx", "-y", "osint-mcp-server"],
       },
+      vuln_kb: {
+        type: "local",
+        command: ["uvx", "eip-mcp"],
+        enabled: false,
+        timeout: 30_000,
+      },
       pyghidra: {
         type: "local",
         command: ["uvx", "pyghidra-mcp"],
         enabled: false,
         timeout: 30_000,
       },
+      ghidramcp: {
+        type: "local",
+        command: ["mcp_bridge", "--host", "localhost", "--port", "8765"],
+        environment: {
+          GHIDRA_API_KEY: "",
+        },
+        enabled: false,
+        timeout: 30_000,
+      },
+      "ida-pro-mcp": {
+        type: "local",
+        command: ["ida-pro-mcp"],
+        enabled: false,
+        timeout: 30_000,
+      },
+      "ida-mcp": {
+        type: "remote",
+        url: "http://127.0.0.1:11338/mcp",
+        enabled: false,
+        timeout: 30_000,
+      },
       "ida-mcp-rs": {
         type: "local",
         command: ["ida-mcp"],
+        enabled: false,
+        timeout: 30_000,
+      },
+      "gdb-mcp": {
+        type: "remote",
+        url: "http://127.0.0.1:3333/sse",
         enabled: false,
         timeout: 30_000,
       },

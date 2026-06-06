@@ -29,6 +29,8 @@ Sample inventory and metadata
 MCP analysis layer
   - IDA Pro MCP
   - Ghidra / PyGhidra MCP
+  - GDB MCP
+  - Vulnerability KB MCP
   - AIDA MCP services
   - capa / yara / rizin adapters
         |
@@ -75,7 +77,7 @@ Finding report
    - Add BinaryStrike architecture docs and binary agent.
 
 2. Phase 1: MCP-based triage
-   - Add disabled-by-default IDA/Ghidra MCP templates.
+   - Add disabled-by-default IDA/Ghidra/GDB/vulnerability-KB MCP templates.
    - Document how to enable local reverse-engineering MCP servers.
    - Teach `binary-security` to use MCP tools through `tool_search` and `load_tools`.
 

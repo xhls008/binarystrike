@@ -285,7 +285,7 @@ export const SessionRoutes = lazy(() =>
       "/",
       describeRoute({
         summary: "List sessions",
-        description: "Get a list of all CyberStrike sessions, sorted by most recently updated.",
+        description: "Get a list of all BinaryStrike sessions, sorted by most recently updated.",
         operationId: "session.list",
         responses: {
           200: {
@@ -490,7 +490,7 @@ export const SessionRoutes = lazy(() =>
       "/:sessionID",
       describeRoute({
         summary: "Get session",
-        description: "Retrieve detailed information about a specific CyberStrike session.",
+        description: "Retrieve detailed information about a specific BinaryStrike session.",
         tags: ["Session"],
         operationId: "session.get",
         responses: {
@@ -913,7 +913,7 @@ export const SessionRoutes = lazy(() =>
       "/",
       describeRoute({
         summary: "Create session",
-        description: "Create a new CyberStrike session for interacting with AI assistants and managing conversations.",
+        description: "Create a new BinaryStrike session for interacting with AI assistants and managing conversations.",
         operationId: "session.create",
         responses: {
           ...errors(400),

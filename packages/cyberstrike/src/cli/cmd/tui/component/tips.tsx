@@ -47,17 +47,17 @@ export function Tips() {
 
 const TIPS = [
   // Offensive security capabilities
-  "CyberStrike runs {highlight}120+ OWASP test cases{/highlight} autonomously across web targets",
+  "BinaryStrike focuses on {highlight}binary vulnerability research{/highlight} with agent-assisted workflows",
   "Use specialized agents for {highlight}recon{/highlight}, {highlight}exploitation{/highlight}, and {highlight}reporting{/highlight}",
-  "CyberStrike generates {highlight}HackerOne-ready{/highlight} vulnerability reports from verified findings",
+  "BinaryStrike generates {highlight}actionable vulnerability reports{/highlight} from verified binary findings",
   "Agents can chain tools — {highlight}recon → scan → exploit → verify → report{/highlight} in a single session",
   "Use {highlight}@pentest{/highlight} agent for full autonomous penetration testing workflows",
-  "CyberStrike supports {highlight}15+ vulnerability skills{/highlight}: IDOR, SSRF, XSS, injection, misconfig, and more",
+  "BinaryStrike supports {highlight}reverse-engineering workflows{/highlight} through IDA Pro, Ghidra, and MCP tools",
   "The verify agent uses a {highlight}ReAct loop{/highlight} with 10 tools to confirm vulnerabilities with PoC",
   "Sub-agents ({highlight}key_validator{/highlight}, {highlight}poc_builder{/highlight}, {highlight}exploit_tester{/highlight}) handle specialized tasks",
   "Agents can {highlight}create custom tools at runtime{/highlight} with define_tool for adaptive testing",
   "Use {highlight}scope enforcement{/highlight} to restrict HTTP requests to authorized targets only",
-  "CyberStrike supports {highlight}HAR replay{/highlight} — replay captured traffic with modifications",
+  "BinaryStrike keeps analysis context organized across {highlight}sessions, reports, and tool outputs{/highlight}",
   "Use {highlight}hackbrowser{/highlight} for web pentesting",
 
   // MCP integrations
