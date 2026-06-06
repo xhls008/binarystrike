@@ -43,12 +43,12 @@ function createEventSource(client: RpcClient): EventSource {
 
 export const TuiThreadCommand = cmd({
   command: "$0 [project]",
-  describe: "start cyberstrike tui",
+  describe: "start binarystrike tui",
   builder: (yargs) =>
     withNetworkOptions(yargs)
       .positional("project", {
         type: "string",
-        describe: "path to start cyberstrike in",
+        describe: "path to start binarystrike in",
       })
       .option("model", {
         type: "string",
@@ -93,8 +93,8 @@ export const TuiThreadCommand = cmd({
       }
 
       // Resolve relative paths against PWD to preserve behavior when using --cwd flag
-      const baseCwd = process.env.PWD ?? process.cwd()
-      const cwd = args.project ? path.resolve(baseCwd, args.project) : process.cwd()
+      const baseCwd = process.env.BINARYSTRIKE_PROJECT_CWD ?? process.env.PWD ?? process.cwd()
+      const cwd = args.project ? path.resolve(baseCwd, args.project) : baseCwd
       const localWorker = new URL("./worker.ts", import.meta.url)
       const distWorker = new URL("./cli/cmd/tui/worker.js", import.meta.url)
       const workerPath = await iife(async () => {

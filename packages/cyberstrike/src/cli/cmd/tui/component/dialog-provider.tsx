@@ -399,7 +399,7 @@ function LocalDoneStep(props: { providerID: string; modelIDs: string[] }) {
       <text fg={theme.accent}>
         {props.providerID} — {props.modelIDs.length} model(s)
       </text>
-      <text fg={theme.textMuted}>{"Use: cyberstrike --model " + props.providerID + "/" + props.modelIDs[0]}</text>
+      <text fg={theme.textMuted}>{"Use: binarystrike --model " + props.providerID + "/" + props.modelIDs[0]}</text>
     </box>
   )
 }

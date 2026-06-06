@@ -735,7 +735,7 @@ function App() {
     toast.show({
       variant: "info",
       title: "Update Available",
-      message: `CyberStrike v${evt.properties.version} is available. Run 'cyberstrike upgrade' to update manually.`,
+      message: `BinaryStrike v${evt.properties.version} is available. Run 'binarystrike upgrade' to update manually.`,
       duration: 10000,
     })
   })

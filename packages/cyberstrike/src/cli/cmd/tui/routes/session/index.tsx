@@ -234,7 +234,7 @@ export function Session() {
       [
         ``,
         `  █▀▀ █▀▀  ${UI.Style.TEXT_DIM}${title}${UI.Style.TEXT_NORMAL}`,
-        `  █   ▀▀█  ${UI.Style.TEXT_DIM}cyberstrike -s ${session()?.id}${UI.Style.TEXT_NORMAL}`,
+        `  █   ▀▀█  ${UI.Style.TEXT_DIM}binarystrike -s ${session()?.id}${UI.Style.TEXT_NORMAL}`,
         `  ▀▀▀ ▀▀▀  `,
       ].join("\n"),
     )

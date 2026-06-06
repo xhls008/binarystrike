@@ -5,7 +5,7 @@ import { $ } from "bun"
 
 export const PrCommand = cmd({
   command: "pr <number>",
-  describe: "fetch and checkout a GitHub PR branch, then run cyberstrike",
+  describe: "fetch and checkout a GitHub PR branch, then run binarystrike",
   builder: (yargs) =>
     yargs.positional("number", {
       type: "number",
@@ -71,7 +71,7 @@ export const PrCommand = cmd({
                 UI.println(`Found cyberstrike session: ${sessionUrl}`)
                 UI.println(`Importing session...`)
 
-                const importResult = await $`cyberstrike import ${sessionUrl}`.nothrow()
+                const importResult = await $`binarystrike import ${sessionUrl}`.nothrow()
                 if (importResult.exitCode === 0) {
                   const importOutput = importResult.text().trim()
                   // Extract session ID from the output (format: "Imported session: <session-id>")
@@ -88,13 +88,13 @@ export const PrCommand = cmd({
 
         UI.println(`Successfully checked out PR #${prNumber} as branch '${localBranchName}'`)
         UI.println()
-        UI.println("Starting cyberstrike...")
+        UI.println("Starting binarystrike...")
         UI.println()
 
-        // Launch cyberstrike TUI with session ID if available
+        // Launch binarystrike TUI with session ID if available
         const { spawn } = await import("child_process")
         const cyberstrikeArgs = sessionId ? ["-s", sessionId] : []
-        const cyberstrikeProcess = spawn("cyberstrike", cyberstrikeArgs, {
+        const cyberstrikeProcess = spawn("binarystrike", cyberstrikeArgs, {
           stdio: "inherit",
           cwd: process.cwd(),
         })
@@ -102,7 +102,7 @@ export const PrCommand = cmd({
         await new Promise<void>((resolve, reject) => {
           cyberstrikeProcess.on("exit", (code) => {
             if (code === 0) resolve()
-            else reject(new Error(`cyberstrike exited with code ${code}`))
+            else reject(new Error(`binarystrike exited with code ${code}`))
           })
           cyberstrikeProcess.on("error", reject)
         })

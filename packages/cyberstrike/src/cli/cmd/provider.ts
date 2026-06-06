@@ -138,9 +138,9 @@ export const ProviderAddCommand = cmd({
         )
 
         if (models.length === 1) {
-          prompts.log.info(`Use with: cyberstrike --model ${result.providerID}/${models[0].id}`)
+          prompts.log.info(`Use with: binarystrike --model ${result.providerID}/${models[0].id}`)
         } else {
-          prompts.log.info(`Use with: cyberstrike --model ${result.providerID}/<model-id>`)
+          prompts.log.info(`Use with: binarystrike --model ${result.providerID}/<model-id>`)
         }
 
         if (!nonInteractive) prompts.outro("Done")

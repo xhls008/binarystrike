@@ -67,7 +67,7 @@ const TIPS = [
   "Configure MCP servers in the {highlight}mcp{/highlight} config section for extended capabilities",
 
   // Local LLM & provider
-  "Run {highlight}cyberstrike provider add{/highlight} to connect local LLMs (vLLM, Ollama, llama.cpp)",
+  "Run {highlight}binarystrike provider add{/highlight} to connect local LLMs (vLLM, Ollama, llama.cpp)",
   "Use {highlight}/models{/highlight} or {highlight}Ctrl+X M{/highlight} to switch between cloud and local models",
   "Local models show under {highlight}Local Models{/highlight} in the model selector — fully searchable",
   "Use {highlight}/connect{/highlight} to add API keys for 75+ supported LLM providers",
@@ -87,7 +87,7 @@ const TIPS = [
   // Config & agents
   "Add {highlight}.md{/highlight} files to {highlight}.cyberstrike/agent/{/highlight} for specialized security personas",
   "Create custom agents for {highlight}bug bounty{/highlight}, {highlight}red team{/highlight}, or {highlight}compliance{/highlight} workflows",
-  "Use {highlight}cyberstrike run{/highlight} for non-interactive scripting and CI/CD integration",
+  "Use {highlight}binarystrike run{/highlight} for non-interactive scripting and CI/CD integration",
   "Create {highlight}.ts{/highlight} files in {highlight}.cyberstrike/tools/{/highlight} to define custom LLM tools",
   "Use {highlight}--format json{/highlight} for machine-readable output in automation pipelines",
 ]

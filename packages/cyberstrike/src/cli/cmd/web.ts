@@ -31,7 +31,7 @@ function getNetworkIPs() {
 export const WebCommand = cmd({
   command: "web",
   builder: (yargs) => withNetworkOptions(yargs),
-  describe: "start cyberstrike server and open web interface",
+  describe: "start binarystrike server and open web interface",
   handler: async (args) => {
     if (!Flag.CYBERSTRIKE_SERVER_PASSWORD) {
       UI.println(

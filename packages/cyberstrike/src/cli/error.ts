@@ -6,13 +6,13 @@ import { UI } from "./ui"
 
 export function FormatError(input: unknown) {
   if (MCP.Failed.isInstance(input))
-    return `MCP server "${input.data.name}" failed. Note, cyberstrike does not support MCP authentication yet.`
+    return `MCP server "${input.data.name}" failed. Note, binarystrike does not support MCP authentication yet.`
   if (Provider.ModelNotFoundError.isInstance(input)) {
     const { providerID, modelID, suggestions } = input.data
     return [
       `Model not found: ${providerID}/${modelID}`,
       ...(Array.isArray(suggestions) && suggestions.length ? ["Did you mean: " + suggestions.join(", ")] : []),
-      `Try: \`cyberstrike models\` to list available models`,
+      `Try: \`binarystrike models\` to list available models`,
       `Or check your config (cyberstrike.json) provider/model names`,
     ].join("\n")
   }

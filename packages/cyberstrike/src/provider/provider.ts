@@ -623,7 +623,7 @@ export namespace Provider {
       if (!apiToken) {
         throw new Error(
           "CLOUDFLARE_API_TOKEN (or CF_AIG_TOKEN) is required for Cloudflare AI Gateway. " +
-            "Set it via environment variable or run `cyberstrike auth cloudflare-ai-gateway`.",
+            "Set it via environment variable or run `binarystrike auth cloudflare-ai-gateway`.",
         )
       }
 

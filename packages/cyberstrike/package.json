@@ -37,6 +37,7 @@
     "db": "bun drizzle-kit"
   },
   "bin": {
+    "binarystrike": "./bin/cyberstrike",
     "cyberstrike": "./bin/cyberstrike"
   },
   "exports": {

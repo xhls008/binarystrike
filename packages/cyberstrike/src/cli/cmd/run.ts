@@ -228,7 +228,7 @@ function normalizePath(input?: string) {
 
 export const RunCommand = cmd({
   command: "run [message..]",
-  describe: "run cyberstrike with a message",
+  describe: "run binarystrike with a message",
   builder: (yargs: Argv) => {
     return yargs
       .positional("message", {
@@ -286,7 +286,7 @@ export const RunCommand = cmd({
       })
       .option("attach", {
         type: "string",
-        describe: "attach to a running cyberstrike server (e.g., http://localhost:4096)",
+        describe: "attach to a running binarystrike server (e.g., http://localhost:4096)",
       })
       .option("dir", {
         type: "string",

@@ -507,8 +507,8 @@ export namespace ACP {
       log.info("initialize", { protocolVersion: params.protocolVersion })
 
       const authMethod: AuthMethod = {
-        description: "Run `cyberstrike auth login` in the terminal",
-        name: "Login with cyberstrike",
+        description: "Run `binarystrike auth login` in the terminal",
+        name: "Login with BinaryStrike",
         id: "cyberstrike-login",
       }
 
@@ -516,9 +516,9 @@ export namespace ACP {
       if (params.clientCapabilities?._meta?.["terminal-auth"] === true) {
         authMethod._meta = {
           "terminal-auth": {
-            command: "cyberstrike",
+            command: "binarystrike",
             args: ["auth", "login"],
-            label: "CyberStrike Login",
+            label: "BinaryStrike Login",
           },
         }
       }
