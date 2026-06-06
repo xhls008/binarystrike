@@ -13,15 +13,15 @@ BinaryStrike should integrate reverse-engineering tools through MCP instead of e
       "type": "local",
       "command": ["uvx", "pyghidra-mcp"],
       "enabled": false,
-      "timeout": 30000
+      "timeout": 30000,
     },
     "ida-mcp-rs": {
       "type": "local",
       "command": ["ida-mcp"],
       "enabled": false,
-      "timeout": 30000
-    }
-  }
+      "timeout": 30000,
+    },
+  },
 }
 ```
 
@@ -34,22 +34,23 @@ Enable a server from the TUI MCP dialog, or override it in `cyberstrike.jsonc` /
       "type": "local",
       "command": ["uvx", "pyghidra-mcp"],
       "enabled": true,
-      "timeout": 30000
-    }
-  }
+      "timeout": 30000,
+    },
+  },
 }
 ```
 
 ## Candidate Open-Source MCP Projects
 
-| Project | Backend | Integration Mode | Notes |
-| --- | --- | --- | --- |
-| `mrexodia/ida-pro-mcp` | IDA Pro | Local MCP server/plugin | Good candidate for interactive IDA databases. Requires local IDA setup. |
-| `blacktop/ida-mcp-rs` | IDA Pro | Local MCP server | Rust implementation; good candidate for packaged local server flow. |
-| `13bm/GhidraMCP` | Ghidra | Ghidra extension/server | Good candidate for GUI-assisted Ghidra projects. |
+| Project                     | Backend         | Integration Mode          | Notes                                                                       |
+| --------------------------- | --------------- | ------------------------- | --------------------------------------------------------------------------- |
+| `mrexodia/ida-pro-mcp`      | IDA Pro         | Local MCP server/plugin   | Good candidate for interactive IDA databases. Requires local IDA setup.     |
+| `blacktop/ida-mcp-rs`       | IDA Pro         | Local MCP server          | Rust implementation; good candidate for packaged local server flow.         |
+| `13bm/GhidraMCP`            | Ghidra          | Ghidra extension/server   | Good candidate for GUI-assisted Ghidra projects.                            |
 | `clearbluejar/pyghidra-mcp` | Ghidra/PyGhidra | Local stdio MCP via `uvx` | Best first default candidate because it can be launched as a local command. |
 
 Reference links:
+
 - https://github.com/mrexodia/ida-pro-mcp
 - https://github.com/blacktop/ida-mcp-rs
 - https://github.com/13bm/GhidraMCP

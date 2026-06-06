@@ -189,6 +189,7 @@
       "name": "cyberstrike",
       "version": "1.1.13",
       "bin": {
+        "binarystrike": "./bin/cyberstrike",
         "cyberstrike": "./bin/cyberstrike",
       },
       "dependencies": {

@@ -5,12 +5,14 @@ BinaryStrike is a CyberStrike-based fork focused on binary vulnerability researc
 ## Product Scope
 
 In scope:
+
 - Native binaries, shared libraries, firmware images, stripped executables, and reverse-engineering databases.
 - Static triage, SCA, decompiler-assisted analysis, call graph review, root-cause analysis, and report generation.
 - MCP integrations for IDA Pro, Ghidra/PyGhidra, and other reverse-engineering backends.
 - AIDA-style services for SCA, indirect-call prediction, embeddings, and large-scale triage.
 
 Out of scope for the first phase:
+
 - Fuzzing campaigns, fuzz harness generation, corpus minimization, and fuzz orchestration.
 - Weaponized exploit development.
 - Malware execution outside a sandbox.
@@ -56,14 +58,14 @@ Finding report
 
 ## Reused CyberStrike Components
 
-| Component | Reuse | Notes |
-| --- | --- | --- |
-| TUI/Web UI | Yes | Keep session, agent switching, MCP status, and findings UI. |
-| Agent runtime | Yes | Add `binary-security` as a native subagent. |
-| MCP client | Yes | Primary integration path for IDA/Ghidra/AIDA. |
-| Plugin/custom tools | Yes | Useful for local wrappers around reverse-engineering tools. |
-| `report_vulnerability` | Yes | Extend later with binary-specific metadata fields. |
-| HackBrowser/proxy agents | Keep, not central | Not used for binary MVP. |
+| Component                | Reuse             | Notes                                                       |
+| ------------------------ | ----------------- | ----------------------------------------------------------- |
+| TUI/Web UI               | Yes               | Keep session, agent switching, MCP status, and findings UI. |
+| Agent runtime            | Yes               | Add `binary-security` as a native subagent.                 |
+| MCP client               | Yes               | Primary integration path for IDA/Ghidra/AIDA.               |
+| Plugin/custom tools      | Yes               | Useful for local wrappers around reverse-engineering tools. |
+| `report_vulnerability`   | Yes               | Extend later with binary-specific metadata fields.          |
+| HackBrowser/proxy agents | Keep, not central | Not used for binary MVP.                                    |
 
 ## MVP Milestones
 

@@ -92,7 +92,7 @@ export namespace Config {
         type: "local",
         command: ["npx", "-y", "osint-mcp-server"],
       },
-      "pyghidra": {
+      pyghidra: {
         type: "local",
         command: ["uvx", "pyghidra-mcp"],
         enabled: false,

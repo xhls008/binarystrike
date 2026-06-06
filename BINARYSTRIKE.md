@@ -17,6 +17,7 @@ Current fork path:
 ## Phase 0 Scope
 
 BinaryStrike focuses on binary vulnerability research:
+
 - Native binaries
 - Shared libraries
 - Firmware
