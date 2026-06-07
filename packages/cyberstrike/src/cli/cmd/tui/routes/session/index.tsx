@@ -81,6 +81,7 @@ import { QuestionPrompt } from "./question"
 import { DialogExportOptions } from "../../ui/dialog-export-options"
 import { formatTranscript } from "../../util/transcript"
 import { UI } from "@/cli/ui.ts"
+import { agentLabel } from "@tui/util/provider"
 
 addDefaultParsers(parsers.parsers)
 
@@ -1999,7 +2000,7 @@ function Task(props: ToolProps<typeof TaskTool>) {
     <Switch>
       <Match when={props.input.description || props.input.subagent_type}>
         <BlockTool
-          title={"# " + Locale.titlecase(props.input.subagent_type ?? "unknown") + " Task"}
+          title={"# " + agentLabel(props.input.subagent_type) + " Task"}
           onClick={
             props.metadata.sessionId
               ? () => navigate({ type: "session", sessionID: props.metadata.sessionId! })
@@ -2032,8 +2033,13 @@ function Task(props: ToolProps<typeof TaskTool>) {
         </BlockTool>
       </Match>
       <Match when={true}>
-        <InlineTool icon="#" pending="Delegating..." complete={props.input.subagent_type} part={props.part}>
-          {props.input.subagent_type} Task {props.input.description}
+        <InlineTool
+          icon="#"
+          pending="Delegating..."
+          complete={props.input.subagent_type ? agentLabel(props.input.subagent_type) : undefined}
+          part={props.part}
+        >
+          {props.input.subagent_type ? agentLabel(props.input.subagent_type) : "Unknown"} Task {props.input.description}
         </InlineTool>
       </Match>
     </Switch>

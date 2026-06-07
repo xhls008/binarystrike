@@ -15,6 +15,7 @@ import { Keybind } from "@/util/keybind"
 import { Locale } from "@/util/locale"
 import { Global } from "@/global"
 import { useDialog } from "../../ui/dialog"
+import { agentLabel } from "@tui/util/provider"
 
 type PermissionStage = "permission" | "always" | "reject"
 
@@ -226,7 +227,7 @@ export function PermissionPrompt(props: { request: PermissionRequest }) {
                   <Match when={props.request.permission === "task"}>
                     <TextBody
                       icon="#"
-                      title={`${Locale.titlecase((input().subagent_type as string) ?? "Unknown")} Task`}
+                      title={`${agentLabel(input().subagent_type as string | undefined)} Task`}
                       description={"◉ " + input().description}
                     />
                   </Match>

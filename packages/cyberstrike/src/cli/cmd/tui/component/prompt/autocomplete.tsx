@@ -13,6 +13,7 @@ import { useTerminalDimensions } from "@opentui/solid"
 import { Locale } from "@/util/locale"
 import type { PromptInfo } from "./history"
 import { useFrecency } from "./frecency"
+import { agentLabel } from "@tui/util/provider"
 
 function removeLineRange(input: string) {
   const hashIndex = input.lastIndexOf("#")
@@ -336,7 +337,7 @@ export function Autocomplete(props: {
       .filter((agent) => !agent.hidden && agent.mode !== "primary")
       .map(
         (agent): AutocompleteOption => ({
-          display: "@" + agent.name,
+          display: "@" + agentLabel(agent),
           onSelect: () => {
             insertPart(agent.name, {
               type: "agent",

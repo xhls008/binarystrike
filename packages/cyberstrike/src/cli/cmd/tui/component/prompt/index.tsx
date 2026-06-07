@@ -32,6 +32,7 @@ import { useToast } from "../../ui/toast"
 import { useKV } from "../../context/kv"
 import { useTextareaKeybindings } from "../textarea-keybindings"
 import { DialogSkill } from "../dialog-skill"
+import { agentLabel } from "@tui/util/provider"
 
 export type PromptProps = {
   sessionID?: string
@@ -996,9 +997,7 @@ export function Prompt(props: PromptProps) {
               syntaxStyle={syntax()}
             />
             <box flexDirection="row" flexShrink={0} paddingTop={1} gap={1}>
-              <text fg={highlight()}>
-                {store.mode === "shell" ? "Shell" : Locale.titlecase(local.agent.current().name)}{" "}
-              </text>
+              <text fg={highlight()}>{store.mode === "shell" ? "Shell" : agentLabel(local.agent.current())} </text>
               <Show when={store.mode === "normal"}>
                 <box flexDirection="row" gap={1}>
                   <text flexShrink={0} fg={keybind.leader ? theme.textMuted : theme.text}>
