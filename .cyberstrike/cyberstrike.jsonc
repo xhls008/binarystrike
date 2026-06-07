@@ -1,5 +1,11 @@
 {
   "$schema": "https://cyberstrike.io/config.json",
+  "default_agent": "binary-security",
+  "agent": {
+    "binary-security": {
+      "mode": "all"
+    }
+  },
   "provider": {
     "cyberstrike": {
       "options": {}
