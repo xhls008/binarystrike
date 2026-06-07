@@ -11,6 +11,11 @@ export function Footer() {
   const sync = useSync()
   const route = useRoute()
   const mcp = createMemo(() => Object.values(sync.data.mcp).filter((x) => x.status === "connected").length)
+  const totalMcp = createMemo(() => Object.keys(sync.data.mcp).length)
+  const mcpLabel = createMemo(() => {
+    if (mcp() === totalMcp()) return `${mcp()} MCP`
+    return `${mcp()}/${totalMcp()} MCP`
+  })
   const mcpError = createMemo(() => Object.values(sync.data.mcp).some((x) => x.status === "failed"))
   const lsp = createMemo(() => Object.keys(sync.data.lsp))
   const permissions = createMemo(() => {
@@ -69,7 +74,7 @@ export function Footer() {
             <text fg={theme.text}>
               <span style={{ fg: lsp().length > 0 ? theme.success : theme.textMuted }}>•</span> {lsp().length} LSP
             </text>
-            <Show when={mcp()}>
+            <Show when={totalMcp()}>
               <text fg={theme.text}>
                 <Switch>
                   <Match when={mcpError()}>
@@ -79,7 +84,7 @@ export function Footer() {
                     <span style={{ fg: theme.success }}>⊙ </span>
                   </Match>
                 </Switch>
-                {mcp()} MCP
+                {mcpLabel()}
               </text>
             </Show>
             <text fg={theme.textMuted}>/status</text>

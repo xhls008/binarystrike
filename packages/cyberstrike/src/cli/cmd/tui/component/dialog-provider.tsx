@@ -13,6 +13,7 @@ import { DialogModel } from "./dialog-model"
 import { useKeyboard } from "@opentui/solid"
 import { Clipboard } from "@tui/util/clipboard"
 import { useToast } from "../ui/toast"
+import { providerLabel } from "@tui/util/provider"
 
 const PROVIDER_PRIORITY: Record<string, number> = {
   cyberstrike: 0,
@@ -31,7 +32,7 @@ export function createDialogProviderOptions() {
       sync.data.provider_next.all,
       sortBy((x) => PROVIDER_PRIORITY[x.id] ?? 99),
       map((provider) => ({
-        title: provider.name,
+        title: providerLabel(provider),
         value: provider.id,
         description: {
           cyberstrike: "(Recommended)",

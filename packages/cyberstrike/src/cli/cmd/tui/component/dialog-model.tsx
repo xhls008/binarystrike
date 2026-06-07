@@ -8,6 +8,7 @@ import { createDialogProviderOptions, DialogProvider, LocalProviderFlow } from "
 import { useKeybind } from "../context/keybind"
 import * as fuzzysort from "fuzzysort"
 import { AnthropicSetupFlow } from "./dialog-anthropic"
+import { providerLabel } from "@tui/util/provider"
 
 export function useConnected() {
   const sync = useSync()
@@ -46,7 +47,7 @@ export function DialogModel(props: { providerID?: string }) {
             key: item,
             value: { providerID: provider.id, modelID: model.id },
             title: model.name ?? item.modelID,
-            description: provider.name,
+            description: providerLabel(provider),
             category,
             disabled: provider.id === "cyberstrike" && model.id.includes("-nano"),
             footer: model.cost?.input === 0 && provider.id === "cyberstrike" ? "Free" : undefined,
@@ -71,7 +72,7 @@ export function DialogModel(props: { providerID?: string }) {
       sync.data.provider,
       sortBy(
         (provider) => provider.id !== "cyberstrike",
-        (provider) => provider.name,
+        (provider) => providerLabel(provider),
       ),
       flatMap((provider) =>
         pipe(
@@ -85,7 +86,7 @@ export function DialogModel(props: { providerID?: string }) {
             description: favorites.some((item) => item.providerID === provider.id && item.modelID === model)
               ? "(Favorite)"
               : undefined,
-            category: connected() ? provider.name : undefined,
+            category: connected() ? providerLabel(provider) : undefined,
             disabled: provider.id === "cyberstrike" && model.includes("-nano"),
             footer: info.cost?.input === 0 && provider.id === "cyberstrike" ? "Free" : undefined,
             onSelect() {
@@ -199,7 +200,7 @@ export function DialogModel(props: { providerID?: string }) {
     props.providerID ? sync.data.provider.find((x) => x.id === props.providerID) : null,
   )
 
-  const title = createMemo(() => provider()?.name ?? "Select model")
+  const title = createMemo(() => providerLabel(provider() ?? undefined, "Select model"))
 
   return (
     <DialogSelect<ReturnType<typeof options>[number]["value"]>

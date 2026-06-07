@@ -35,6 +35,11 @@ export function Home() {
   const connectedMcpCount = createMemo(() => {
     return Object.values(sync.data.mcp).filter((x) => x.status === "connected").length
   })
+  const totalMcpCount = createMemo(() => Object.keys(sync.data.mcp).length)
+  const mcpLabel = createMemo(() => {
+    if (connectedMcpCount() === totalMcpCount()) return `${connectedMcpCount()} MCP`
+    return `${connectedMcpCount()}/${totalMcpCount()} MCP`
+  })
 
   const isFirstTimeUser = createMemo(() => sync.data.session.length === 0)
   const tipsHidden = createMemo(() => kv.get("tips_hidden", false))
@@ -179,7 +184,7 @@ export function Home() {
                   <span style={{ fg: connectedMcpCount() > 0 ? theme.success : theme.textMuted }}>⊙ </span>
                 </Match>
               </Switch>
-              {connectedMcpCount()} MCP
+              {mcpLabel()}
             </text>
             <text fg={theme.textMuted}>/status</text>
           </Show>

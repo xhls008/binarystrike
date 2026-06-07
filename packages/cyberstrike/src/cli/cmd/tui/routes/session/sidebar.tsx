@@ -63,6 +63,7 @@ export function Sidebar(props: { sessionID: string; overlay?: boolean }) {
 
   // Count connected and error MCP servers for collapsed header display
   const connectedMcpCount = createMemo(() => mcpEntries().filter(([_, item]) => item.status === "connected").length)
+  const totalMcpCount = createMemo(() => mcpEntries().length)
   const errorMcpCount = createMemo(
     () =>
       mcpEntries().filter(
@@ -230,7 +231,7 @@ export function Sidebar(props: { sessionID: string; overlay?: boolean }) {
                     <Show when={!expanded.mcp}>
                       <span style={{ fg: theme.textMuted }}>
                         {" "}
-                        ({connectedMcpCount()} active
+                        ({connectedMcpCount()}/{totalMcpCount()} active
                         {errorMcpCount() > 0 ? `, ${errorMcpCount()} error${errorMcpCount() > 1 ? "s" : ""}` : ""})
                       </span>
                     </Show>
