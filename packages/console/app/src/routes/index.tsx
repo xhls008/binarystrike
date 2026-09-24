@@ -1,8 +1,8 @@
 import "./index.css"
 import { Title, Meta } from "@solidjs/meta"
 //import { HttpHeader } from "@solidjs/start"
-import video from "../asset/lander/cyberstrike-min.mp4"
-import videoPoster from "../asset/lander/cyberstrike-poster.png"
+import video from "../asset/lander/opencode-min.mp4"
+import videoPoster from "../asset/lander/opencode-poster.png"
 import { IconCopy, IconCheck } from "../component/icon"
 import { A, createAsync } from "@solidjs/router"
 import { EmailSignup } from "~/component/email-signup"
@@ -12,7 +12,6 @@ import { Header } from "~/component/header"
 import { Footer } from "~/component/footer"
 import { Legal } from "~/component/legal"
 import { github } from "~/lib/github"
-import { createMemo } from "solid-js"
 import { config } from "~/config"
 import { useI18n } from "~/context/i18n"
 import { useLanguage } from "~/context/language"
@@ -30,14 +29,12 @@ function CopyStatus() {
 export default function Home() {
   const i18n = useI18n()
   const language = useLanguage()
-  const githubData = createAsync(() => github())
-  const release = createMemo(() => githubData()?.release)
-
+  const _githubData = createAsync(() => github())
   const handleCopyClick = (event: Event) => {
     const button = event.currentTarget as HTMLButtonElement
     const text = button.textContent
     if (text) {
-      navigator.clipboard.writeText(text)
+      void navigator.clipboard.writeText(text)
       button.setAttribute("data-copied", "")
       setTimeout(() => {
         button.removeAttribute("data-copied")
@@ -46,7 +43,7 @@ export default function Home() {
   }
 
   return (
-    <main data-page="cyberstrike">
+    <main data-page="opencode">
       {/*<HttpHeader name="Cache-Control" value="public, max-age=1, s-maxage=3600, stale-while-revalidate=86400" />*/}
       <Title>{i18n.t("home.title")}</Title>
       <LocaleLinks path="/" />
@@ -118,7 +115,7 @@ export default function Home() {
                       <span data-slot="command-script">
                         <span>curl -fsSL </span>
                         <span data-slot="protocol">https://</span>
-                        <span data-slot="highlight">cyberstrike.io/install</span>
+                        <span data-slot="highlight">opencode.ai/install</span>
                         <span> | bash</span>
                       </span>
                       <CopyStatus />
@@ -128,7 +125,7 @@ export default function Home() {
                     <button data-copy data-slot="command" onClick={handleCopyClick}>
                       <span>
                         <span data-slot="protocol">npm i -g </span>
-                        <span data-slot="highlight">cyberstrike</span>
+                        <span data-slot="highlight">opencode-ai</span>
                       </span>
                       <CopyStatus />
                     </button>
@@ -137,7 +134,7 @@ export default function Home() {
                     <button data-copy data-slot="command" onClick={handleCopyClick}>
                       <span>
                         <span data-slot="protocol">bun add -g </span>
-                        <span data-slot="highlight">cyberstrike</span>
+                        <span data-slot="highlight">opencode-ai</span>
                       </span>
                       <CopyStatus />
                     </button>
@@ -146,7 +143,7 @@ export default function Home() {
                     <button data-copy data-slot="command" onClick={handleCopyClick}>
                       <span>
                         <span data-slot="protocol">brew install </span>
-                        <span data-slot="highlight">CyberStrikeus/tap/cyberstrike</span>
+                        <span data-slot="highlight">anomalyco/tap/opencode</span>
                       </span>
                       <CopyStatus />
                     </button>
@@ -155,7 +152,7 @@ export default function Home() {
                     <button data-copy data-slot="command" onClick={handleCopyClick}>
                       <span>
                         <span data-slot="protocol">paru -S </span>
-                        <span data-slot="highlight">cyberstrike</span>
+                        <span data-slot="highlight">opencode</span>
                       </span>
                       <CopyStatus />
                     </button>

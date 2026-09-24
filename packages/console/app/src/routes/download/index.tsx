@@ -1,18 +1,18 @@
 import "./index.css"
-import { Title, Meta } from "@solidjs/meta"
-import { A, createAsync, query } from "@solidjs/router"
-import { Header } from "~/component/header"
-import { Footer } from "~/component/footer"
-import { IconCopy, IconCheck } from "~/component/icon"
+import { Meta, Title } from "@solidjs/meta"
+import { A } from "@solidjs/router"
+import { createSignal, type JSX, onMount, Show } from "solid-js"
 import { Faq } from "~/component/faq"
-import desktopAppIcon from "../../asset/lander/cyberstrike-desktop-icon.png"
+import { Footer } from "~/component/footer"
+import { Header } from "~/component/header"
+import { IconCheck, IconCopy } from "~/component/icon"
 import { Legal } from "~/component/legal"
+import { LocaleLinks } from "~/component/locale-links"
 import { config } from "~/config"
-import { createSignal, onMount, Show, JSX } from "solid-js"
-import { DownloadPlatform } from "./types"
 import { useI18n } from "~/context/i18n"
 import { useLanguage } from "~/context/language"
-import { LocaleLinks } from "~/component/locale-links"
+import desktopTabsVideo from "../../asset/lander/desktop-tabs-landscape.mp4"
+import type { DownloadPlatform } from "./types"
 
 type OS = "macOS" | "Windows" | "Linux" | null
 
@@ -40,8 +40,8 @@ function getDownloadPlatform(os: OS): DownloadPlatform {
   }
 }
 
-function getDownloadHref(platform: DownloadPlatform) {
-  return `/download/${platform}`
+function getDownloadHref(platform: DownloadPlatform, channel: "stable" | "beta" = "stable") {
+  return `/download/${channel}/${platform}`
 }
 
 function IconDownload(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
@@ -77,7 +77,7 @@ export default function Download() {
 
   const handleCopyClick = (command: string) => (event: Event) => {
     const button = event.currentTarget as HTMLButtonElement
-    navigator.clipboard.writeText(command)
+    void navigator.clipboard.writeText(command)
     button.setAttribute("data-copied", "")
     setTimeout(() => {
       button.removeAttribute("data-copied")
@@ -93,12 +93,14 @@ export default function Download() {
 
         <div data-component="content">
           <section data-component="download-hero">
-            <div data-component="hero-icon">
-              <img src={desktopAppIcon} alt="" />
+            <div data-component="hero-video">
+              <video src={desktopTabsVideo} autoplay playsinline loop muted preload="metadata" aria-hidden="true" />
             </div>
             <div data-component="hero-text">
               <h1>{i18n.t("download.hero.title")}</h1>
-              <p>{i18n.t("download.hero.subtitle")}</p>
+              <p>
+                {i18n.t("home.promo.body")} {i18n.t("home.promo.cta")}
+              </p>
               <Show when={detectedOS()}>
                 <a
                   href={language.route(getDownloadHref(getDownloadPlatform(detectedOS())))}
@@ -118,34 +120,34 @@ export default function Download() {
             <div data-component="section-content">
               <button
                 data-component="cli-row"
-                onClick={handleCopyClick("curl -fsSL https://cyberstrike.io/install | bash")}
+                onClick={handleCopyClick("curl -fsSL https://opencode.ai/install | bash")}
               >
                 <code>
-                  curl -fsSL https://<strong>cyberstrike.io/install</strong> | bash
+                  curl -fsSL https://<strong>opencode.ai/install</strong> | bash
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("npm i -g @cyberstrike-io/cyberstrike")}>
+              <button data-component="cli-row" onClick={handleCopyClick("npm i -g opencode-ai")}>
                 <code>
-                  npm i -g <strong>@cyberstrike-io/cyberstrike</strong>
+                  npm i -g <strong>opencode-ai</strong>
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("bun add -g @cyberstrike-io/cyberstrike")}>
+              <button data-component="cli-row" onClick={handleCopyClick("bun add -g opencode-ai")}>
                 <code>
-                  bun add -g <strong>@cyberstrike-io/cyberstrike</strong>
+                  bun add -g <strong>opencode-ai</strong>
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("brew install CyberStrikeus/tap/cyberstrike")}>
+              <button data-component="cli-row" onClick={handleCopyClick("brew install anomalyco/tap/opencode")}>
                 <code>
-                  brew install <strong>CyberStrikeus/tap/cyberstrike</strong>
+                  brew install <strong>anomalyco/tap/opencode</strong>
                 </code>
                 <CopyStatus />
               </button>
-              <button data-component="cli-row" onClick={handleCopyClick("paru -S cyberstrike")}>
+              <button data-component="cli-row" onClick={handleCopyClick("paru -S opencode")}>
                 <code>
-                  paru -S <strong>cyberstrike</strong>
+                  paru -S <strong>opencode</strong>
                 </code>
                 <CopyStatus />
               </button>
@@ -157,9 +159,9 @@ export default function Download() {
               <span>[2]</span> {i18n.t("download.section.desktop")}
             </div>
             <div data-component="section-content">
-              <button data-component="cli-row" onClick={handleCopyClick("brew install --cask cyberstrike-desktop")}>
+              <button data-component="cli-row" onClick={handleCopyClick("brew install --cask opencode-desktop")}>
                 <code>
-                  brew install --cask <strong>cyberstrike-desktop</strong>
+                  brew install --cask <strong>opencode-desktop</strong>
                 </code>
                 <CopyStatus />
               </button>

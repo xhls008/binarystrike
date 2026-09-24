@@ -1,37 +1,14 @@
 #!/usr/bin/env bun
 
+import { Script } from "@opencode/script"
 import { $ } from "bun"
-import { Script } from "@cyberstrike-io/script"
-
-const highlightsTemplate = `
-<!--
-Add highlights before publishing. Delete this section if no highlights.
-
-- For multiple highlights, use multiple <highlight> tags
-- Highlights with the same source attribute get grouped together
--->
-
-<!--
-<highlight source="SourceName (TUI/Desktop/Web/Core)">
-  <h2>Feature title goes here</h2>
-  <p short="Short description used for Desktop Recap">
-    Full description of the feature or change
-  </p>
-
-  https://github.com/user-attachments/assets/uuid-for-video (you will want to drag & drop the video or picture)
-
-  <img
-    width="1912"
-    height="1164"
-    alt="image"
-    src="https://github.com/user-attachments/assets/uuid-for-image"
-  />
-</highlight>
--->
-
-`
+import { fileURLToPath } from "url"
 
 console.log("=== publishing ===\n")
+
+const dir = fileURLToPath(new URL("..", import.meta.url))
+process.chdir(dir)
+const tag = `v${Script.version}`
 
 const pkgjsons = await Array.fromAsync(
   new Bun.Glob("**/package.json").scan({
@@ -39,41 +16,87 @@ const pkgjsons = await Array.fromAsync(
   }),
 ).then((arr) => arr.filter((x) => !x.includes("node_modules") && !x.includes("dist")))
 
-for (const file of pkgjsons) {
-  let pkg = await Bun.file(file).text()
-  pkg = pkg.replaceAll(/"version": "[^"]+"/g, `"version": "${Script.version}"`)
-  console.log("updated:", file)
-  await Bun.file(file).write(pkg)
+async function prepareReleaseFiles() {
+  for (const file of pkgjsons) {
+    let pkg = await Bun.file(file).text()
+    pkg = pkg.replaceAll(/"version": "[^"]+"/g, `"version": "${Script.version}"`)
+    console.log("updated:", file)
+    await Bun.file(file).write(pkg)
+  }
+
+  await $`bun install`
 }
 
-const extensionToml = new URL("../packages/extensions/zed/extension.toml", import.meta.url).pathname
-let toml = await Bun.file(extensionToml).text()
-toml = toml.replace(/^version = "[^"]+"/m, `version = "${Script.version}"`)
-toml = toml.replaceAll(/releases\/download\/v[^/]+\//g, `releases/download/v${Script.version}/`)
-console.log("updated:", extensionToml)
-await Bun.file(extensionToml).write(toml)
-
-await $`bun install`
-await import(`../packages/sdk/js/script/build.ts`)
-
-if (Script.release) {
-  await $`git commit -am "release: v${Script.version}"`.nothrow()
-  await $`git tag v${Script.version}`.nothrow()
-  await $`git fetch origin`
-  await $`git cherry-pick HEAD..origin/dev`.nothrow()
-  await $`git push origin HEAD --tags --no-verify --force-with-lease`
-  await new Promise((resolve) => setTimeout(resolve, 5_000))
-  await $`gh release edit v${Script.version} --draft=false`
+if (Script.release && !Script.preview) {
+  await $`git fetch origin --tags`
+  await $`git switch --detach`
 }
+
+await prepareReleaseFiles()
+
+if (Script.release) await $`bun ./packages/desktop/scripts/publish.ts --dry-run`
+
+console.log("\n=== schema ===\n")
+await $`bun ./packages/schema/script/publish.ts`
+
+console.log("\n=== codemode ===\n")
+await $`bun ./packages/codemode/script/publish.ts`
+
+console.log("\n=== theme ===\n")
+await $`bun ./packages/theme/script/publish.ts`
+
+console.log("\n=== ai ===\n")
+await $`bun ./packages/ai/script/publish.ts`
+
+console.log("\n=== util ===\n")
+await $`bun ./packages/util/script/publish.ts`
+
+console.log("\n=== protocol ===\n")
+await $`bun ./packages/protocol/script/publish.ts`
+
+console.log("\n=== client ===\n")
+await $`bun ./packages/client/script/publish.ts`
 
 console.log("\n=== cli ===\n")
-await import(`../packages/cyberstrike/script/publish.ts`)
-
-console.log("\n=== sdk ===\n")
-await import(`../packages/sdk/js/script/publish.ts`)
+await $`bun ./packages/cli/script/publish.ts`
 
 console.log("\n=== plugin ===\n")
-await import(`../packages/plugin/script/publish.ts`)
+await $`bun ./packages/plugin/script/publish.ts`
 
-const dir = new URL("..", import.meta.url).pathname
-process.chdir(dir)
+console.log("\n=== plugin-browser ===\n")
+await $`bun ./packages/plugin-browser/script/publish.ts`
+
+console.log("\n=== core ===\n")
+await $`bun ./packages/core/script/publish.ts`
+
+console.log("\n=== simulation ===\n")
+await $`bun ./packages/simulation/script/publish.ts`
+
+console.log("\n=== server ===\n")
+await $`bun ./packages/server/script/publish.ts`
+
+console.log("\n=== sdk ===\n")
+await $`bun ./packages/sdk/script/publish.ts`
+
+console.log("\n=== ui ===\n")
+await $`bun ./packages/ui/script/publish.ts`
+
+if (Script.release && !Script.preview) {
+  if ((await $`git diff --quiet`.nothrow()).exitCode !== 0) await $`git commit -am "release: ${tag}"`
+  await $`git tag -d ${tag}`.nothrow()
+  await $`git tag ${tag}`
+  await $`git push origin refs/tags/${tag} --force-with-lease --no-verify`
+  await new Promise((resolve) => setTimeout(resolve, 5_000))
+  await $`git fetch origin`
+  await $`git checkout -B v2 origin/v2`
+  await prepareReleaseFiles()
+  if ((await $`git diff --quiet`.nothrow()).exitCode !== 0) {
+    await $`git commit -am "sync release versions for ${tag}"`
+    await $`git push origin HEAD:v2 --no-verify`
+  }
+}
+
+if (Script.release) {
+  console.log("\n=== desktop ===\n")
+  await $`bun ./packages/desktop/scripts/publish.ts`
+}

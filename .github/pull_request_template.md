@@ -1,33 +1,29 @@
-## What does this PR do?
+### Issue for this PR
 
-<!-- Describe the changes and why they're needed. Link the related issue with Fixes # or Closes #. -->
+Closes #
 
-## Type of change
+### Type of change
 
 - [ ] Bug fix
-- [ ] New feature / agent
-- [ ] Security tool / MCP server / Bolt plugin
-- [ ] Agent skill / knowledge base
-- [ ] UI / TUI improvement
+- [ ] New feature
+- [ ] Refactor / code improvement
 - [ ] Documentation
-- [ ] Refactor / performance
-- [ ] CI / infrastructure
 
-## Security impact
+### What does this PR do?
 
-- [ ] This PR adds or modifies tool execution (shell, file, network)
-- [ ] This PR changes agent permissions or scope
-- [ ] This PR modifies authentication / authorization logic
-- [ ] This PR has no security impact
+Please provide a description of the issue, the changes you made to fix it, and why they work. It is expected that you understand why your changes work and if you do not understand why at least say as much so a maintainer knows how much to value the PR.
 
-## How did you verify it works?
+**If you paste a large clearly AI generated description here your PR may be IGNORED or CLOSED!**
 
-<!-- Describe what you tested and how a reviewer can confirm. -->
+### How did you verify your code works?
 
-## Checklist
+### Screenshots / recordings
 
-- [ ] `bun turbo typecheck` passes
-- [ ] Tested locally with at least one LLM provider
-- [ ] PR is focused on a single change
-- [ ] No secrets, credentials, or API keys in the diff
-- [ ] Breaking changes are documented (if any)
+_If this is a UI change, please include a screenshot or recording._
+
+### Checklist
+
+- [ ] I have tested my changes locally
+- [ ] I have not included unrelated changes in this PR
+
+_If you do not follow this template your PR will be automatically rejected._

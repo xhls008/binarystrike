@@ -1,8 +1,9 @@
 #!/usr/bin/env bun
 
+/* TODO: Migrate this script to the new in-process @opencode/sdk.
 import path from "path"
 import { pathToFileURL } from "bun"
-import { createCyberstrike } from "@cyberstrike-io/sdk"
+import { createOpencode } from "@opencode/sdk"
 import { parseArgs } from "util"
 
 async function main() {
@@ -35,7 +36,7 @@ Examples:
     process.exit(1)
   }
 
-  const cyberstrike = await createCyberstrike({ port: 0 })
+  const opencode = await createOpencode({ port: 0 })
 
   try {
     const parts: Array<{ type: "text"; text: string } | { type: "file"; url: string; filename: string; mime: string }> =
@@ -58,8 +59,8 @@ Examples:
 
     parts.push({ type: "text", text: message })
 
-    const session = await cyberstrike.client.session.create()
-    const result = await cyberstrike.client.session
+    const session = await opencode.client.session.create()
+    const result = await opencode.client.session
       .prompt({
         path: { id: session.data!.id },
         body: {
@@ -72,8 +73,9 @@ Examples:
 
     console.log(result.trim())
   } finally {
-    cyberstrike.server.close()
+    opencode.server.close()
   }
 }
 
-main()
+void main()
+*/

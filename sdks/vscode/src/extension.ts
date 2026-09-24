@@ -3,15 +3,15 @@ export function deactivate() {}
 
 import * as vscode from "vscode"
 
-const TERMINAL_NAME = "cyberstrike"
+const TERMINAL_NAME = "opencode"
 
 export function activate(context: vscode.ExtensionContext) {
-  let openNewTerminalDisposable = vscode.commands.registerCommand("cyberstrike.openNewTerminal", async () => {
+  const openNewTerminalDisposable = vscode.commands.registerCommand("opencode.openNewTerminal", async () => {
     await openTerminal()
   })
 
-  let openTerminalDisposable = vscode.commands.registerCommand("cyberstrike.openTerminal", async () => {
-    // An cyberstrike terminal already exists => focus it
+  const openTerminalDisposable = vscode.commands.registerCommand("opencode.openTerminal", async () => {
+    // An opencode terminal already exists => focus it
     const existingTerminal = vscode.window.terminals.find((t) => t.name === TERMINAL_NAME)
     if (existingTerminal) {
       existingTerminal.show()
@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
     await openTerminal()
   })
 
-  let addFilepathDisposable = vscode.commands.registerCommand("cyberstrike.addFilepathToTerminal", async () => {
+  let addFilepathDisposable = vscode.commands.registerCommand("opencode.addFilepathToTerminal", async () => {
     const fileRef = getActiveFile()
     if (!fileRef) {
       return
@@ -34,13 +34,13 @@ export function activate(context: vscode.ExtensionContext) {
 
     if (terminal.name === TERMINAL_NAME) {
       // @ts-ignore
-      const port = terminal.creationOptions.env?.["_EXTENSION_CYBERSTRIKE_PORT"]
+      const port = terminal.creationOptions.env?.["_EXTENSION_OPENCODE_PORT"]
       port ? await appendPrompt(parseInt(port), fileRef) : terminal.sendText(fileRef, false)
       terminal.show()
     }
   })
 
-  context.subscriptions.push(openTerminalDisposable, addFilepathDisposable)
+  context.subscriptions.push(openNewTerminalDisposable, openTerminalDisposable, addFilepathDisposable)
 
   async function openTerminal() {
     // Create a new terminal in split screen
@@ -56,13 +56,13 @@ export function activate(context: vscode.ExtensionContext) {
         preserveFocus: false,
       },
       env: {
-        _EXTENSION_CYBERSTRIKE_PORT: port.toString(),
-        CYBERSTRIKE_CALLER: "vscode",
+        _EXTENSION_OPENCODE_PORT: port.toString(),
+        OPENCODE_CALLER: "vscode",
       },
     })
 
     terminal.show()
-    terminal.sendText(`cyberstrike --port ${port}`)
+    terminal.sendText(`opencode --port ${port}`)
 
     const fileRef = getActiveFile()
     if (!fileRef) {
@@ -78,7 +78,7 @@ export function activate(context: vscode.ExtensionContext) {
         await fetch(`http://localhost:${port}/app`)
         connected = true
         break
-      } catch (e) {}
+      } catch {}
 
       tries--
     } while (tries > 0)

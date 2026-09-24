@@ -1,11 +1,11 @@
 import "./index.css"
-import { createAsync, query, redirect } from "@solidjs/router"
+import { createAsync, query } from "@solidjs/router"
 import { Title, Meta } from "@solidjs/meta"
 //import { HttpHeader } from "@solidjs/start"
 import zenLogoLight from "../../asset/zen-ornate-light.svg"
 import zenLogoDark from "../../asset/zen-ornate-dark.svg"
-import compareVideo from "../../asset/lander/cyberstrike-comparison-min.mp4"
-import compareVideoPoster from "../../asset/lander/cyberstrike-comparison-poster.png"
+import compareVideo from "../../asset/lander/opencode-comparison-min.mp4"
+import compareVideoPoster from "../../asset/lander/opencode-comparison-poster.png"
 import avatarDax from "../../asset/lander/avatar-dax.png"
 import avatarJay from "../../asset/lander/avatar-jay.png"
 import avatarFrank from "../../asset/lander/avatar-frank.png"
@@ -24,8 +24,7 @@ import { LocaleLinks } from "~/component/locale-links"
 
 const checkLoggedIn = query(async () => {
   "use server"
-  const workspaceID = await getLastSeenWorkspaceID().catch(() => {})
-  if (workspaceID) throw redirect(`/workspace/${workspaceID}`)
+  return await getLastSeenWorkspaceID().catch(() => {})
 }, "checkLoggedIn.get")
 
 export default function Home() {
@@ -39,7 +38,7 @@ export default function Home() {
       <LocaleLinks path="/zen" />
       <Meta property="og:image" content="/social-share-zen.png" />
       <Meta name="twitter:image" content="/social-share-zen.png" />
-      <Meta name="cyberstrike:auth" content={loggedin() ? "true" : "false"} />
+      <Meta name="opencode:auth" content={loggedin() ? "true" : "false"} />
 
       <div data-component="container">
         <Header zen hideGetStarted />
@@ -222,7 +221,7 @@ export default function Home() {
                   <span>ex-CEO, Terminal Products</span>
                 </div>
                 <div data-slot="quote">
-                  <span>@CyberStrike</span>
+                  <span>@OpenCode</span>
                   {" Zen has been life changing, it's truly a no-brainer."}
                 </div>
               </div>
@@ -237,7 +236,7 @@ export default function Home() {
                 </div>
                 <div data-slot="quote">
                   {"4 out of 5 people on our team love using "}
-                  <span>@CyberStrike</span>
+                  <span>@OpenCode</span>
                   {" Zen."}
                 </div>
               </div>
@@ -252,7 +251,7 @@ export default function Home() {
                 </div>
                 <div data-slot="quote">
                   {"I can't recommend "}
-                  <span>@CyberStrike</span>
+                  <span>@OpenCode</span>
                   {" Zen enough. Seriously, it's really good."}
                 </div>
               </div>
@@ -267,7 +266,7 @@ export default function Home() {
                 </div>
                 <div data-slot="quote">
                   {"With "}
-                  <span>@CyberStrike</span>
+                  <span>@OpenCode</span>
                   {" Zen I know all the models are tested and perfect for coding agents."}
                 </div>
               </div>

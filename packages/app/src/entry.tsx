@@ -1,14 +1,19 @@
 // @refresh reload
-import "@fontsource-variable/space-grotesk"
+
+import "@/runtime/polyfills"
+import { init } from "@sentry/solid"
 import { render } from "solid-js/web"
 import { AppBaseProviders, AppInterface } from "@/app"
-import { Platform, PlatformProvider } from "@/context/platform"
-import { dict as en } from "@/i18n/en"
-import { dict as zh } from "@/i18n/zh"
-import { handleNotificationClick } from "@/utils/notification-click"
+import { loadInitialLocale } from "@/runtime/i18n/language"
+import { PlatformProvider } from "@/runtime/platform/platform"
+import { createWebPlatform } from "@/runtime/platform/web"
+import { isStandalone, PwaRoutePersistence, restorePwaRoute } from "@/runtime/platform/pwa"
+import { KeyboardInsets } from "@/runtime/platform/keyboard"
+import en from "@/runtime/i18n/en"
+import zh from "@/runtime/i18n/zh"
+import { authFromToken } from "@/runtime/server/api"
 import pkg from "../package.json"
-
-const DEFAULT_SERVER_URL_KEY = "cyberstrike.settings.dat:defaultServerUrl"
+import { ServerConnection } from "@/runtime/server/registry"
 
 const getLocale = () => {
   if (typeof navigator !== "object") return "en" as const
@@ -26,97 +31,78 @@ const getRootNotFoundError = () => {
   return locale === "zh" ? (zh[key] ?? en[key]) : en[key]
 }
 
-const getStorage = (key: string) => {
-  if (typeof localStorage === "undefined") return null
-  try {
-    return localStorage.getItem(key)
-  } catch {
-    return null
-  }
-}
-
-const setStorage = (key: string, value: string | null) => {
-  if (typeof localStorage === "undefined") return
-  try {
-    if (value !== null) {
-      localStorage.setItem(key, value)
-      return
-    }
-    localStorage.removeItem(key)
-  } catch {
-    return
-  }
-}
-
-const readDefaultServerUrl = () => getStorage(DEFAULT_SERVER_URL_KEY)
-const writeDefaultServerUrl = (url: string | null) => setStorage(DEFAULT_SERVER_URL_KEY, url)
-
-const notify: Platform["notify"] = async (title, description, href) => {
-  if (!("Notification" in window)) return
-
-  const permission =
-    Notification.permission === "default"
-      ? await Notification.requestPermission().catch(() => "denied")
-      : Notification.permission
-
-  if (permission !== "granted") return
-
-  const inView = document.visibilityState === "visible" && document.hasFocus()
-  if (inView) return
-
-  const notification = new Notification(title, {
-    body: description ?? "",
-    icon: "https://cyberstrike.io/favicon-96x96-v3.png",
-  })
-
-  notification.onclick = () => {
-    handleNotificationClick(href)
-    notification.close()
-  }
-}
-
-const openLink: Platform["openLink"] = (url) => {
-  window.open(url, "_blank")
-}
-
-const back: Platform["back"] = () => {
-  window.history.back()
-}
-
-const forward: Platform["forward"] = () => {
-  window.history.forward()
-}
-
-const restart: Platform["restart"] = async () => {
-  window.location.reload()
-}
-
 const root = document.getElementById("root")
 if (!(root instanceof HTMLElement) && import.meta.env.DEV) {
   throw new Error(getRootNotFoundError())
 }
 
-const platform: Platform = {
-  platform: "web",
-  version: pkg.version,
-  openLink,
-  back,
-  forward,
-  restart,
-  notify,
-  getDefaultServerUrl: readDefaultServerUrl,
-  setDefaultServerUrl: writeDefaultServerUrl,
+const clearAuthToken = () => {
+  const params = new URLSearchParams(location.search)
+  if (!params.has("auth_token")) return
+  params.delete("auth_token")
+  history.replaceState(null, "", location.pathname + (params.size ? `?${params}` : "") + location.hash)
 }
 
-if (root instanceof HTMLElement) {
-  render(
-    () => (
-      <PlatformProvider value={platform}>
-        <AppBaseProviders>
-          <AppInterface />
-        </AppBaseProviders>
-      </PlatformProvider>
-    ),
-    root,
-  )
+const web = createWebPlatform(pkg.version)
+
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => void navigator.serviceWorker.register("/sw.js"), { once: true })
+}
+
+if (import.meta.env.VITE_SENTRY_DSN) {
+  init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.VITE_SENTRY_ENVIRONMENT ?? import.meta.env.MODE,
+    release: import.meta.env.VITE_SENTRY_RELEASE ?? `web@${pkg.version}`,
+    initialScope: {
+      tags: {
+        platform: "web",
+      },
+    },
+    integrations: (integrations) => {
+      return integrations.filter(
+        (i) =>
+          i.name !== "Breadcrumbs" && !(import.meta.env.OPENCODE_CHANNEL === "prod" && i.name === "GlobalHandlers"),
+      )
+    },
+  })
+}
+
+if (root instanceof HTMLElement && root.dataset.opencodeMounted === undefined) {
+  // Lazy chunks can import the entry chunk back under a distinct URL, so claim the root before async startup.
+  root.dataset.opencodeMounted = ""
+  void loadInitialLocale().then((locale) => {
+    const auth = authFromToken(new URLSearchParams(location.search).get("auth_token"))
+    clearAuthToken()
+    const standalone = isStandalone()
+    root.dataset.standalone = String(standalone)
+    if (standalone) restorePwaRoute()
+    const server: ServerConnection.Http | undefined = web.currentServerUrl
+      ? {
+          type: "http",
+          authToken: !!auth,
+          http: {
+            url: web.currentServerUrl,
+            ...auth,
+          },
+        }
+      : undefined
+    render(
+      () => (
+        <PlatformProvider value={web.platform}>
+          <AppBaseProviders locale={locale}>
+            <AppInterface
+              defaultServer={web.defaultServerUrl ? ServerConnection.Key.make(web.defaultServerUrl) : undefined}
+              canonicalLocalServer={server ? ServerConnection.key(server) : undefined}
+              servers={server ? [server] : []}
+            >
+              <KeyboardInsets />
+              {standalone && <PwaRoutePersistence />}
+            </AppInterface>
+          </AppBaseProviders>
+        </PlatformProvider>
+      ),
+      root,
+    )
+  })
 }

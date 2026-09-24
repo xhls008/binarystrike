@@ -1,0 +1,58 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {},
+  "permission": {},
+  "references": {
+    "effect": {
+      "repository": "github.com/Effect-TS/effect-smol",
+      "description": "Use for Effect v4 and effect-smol implementation details",
+    },
+    "opencode-local": {
+      "path": "~/.local/share/opencode",
+      "description": "Contains opencode logs and data",
+    },
+  },
+  "mcp": {
+    "servers": {
+      "decompileai-lite-memory": {
+        "type": "local",
+        "command": ["decompileai-lite-agent", "mcp", "--profile", "official"],
+        "disabled": true,
+      },
+      "aida-services": {
+        "type": "local",
+        "command": ["aida-mcp-server", "--base-url", "http://127.0.0.1:18000"],
+        "disabled": true,
+      },
+      "vuln-kb": {
+        "type": "local",
+        "command": ["uvx", "eip-mcp"],
+        "disabled": true,
+      },
+      "pyghidra": {
+        "type": "local",
+        "command": ["uvx", "pyghidra-mcp"],
+        "disabled": true,
+      },
+      "ida-pro-mcp": {
+        "type": "local",
+        "command": ["ida-pro-mcp"],
+        "disabled": true,
+      },
+      "ida-mcp": {
+        "type": "remote",
+        "url": "http://127.0.0.1:11338/mcp",
+        "disabled": true,
+      },
+      "gdb-mcp": {
+        "type": "remote",
+        "url": "http://127.0.0.1:3333/sse",
+        "disabled": true,
+      },
+    },
+  },
+  "tools": {
+    "github-triage": false,
+    "github-pr-search": false,
+  },
+}

@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "devDependencies": {
     "@types/bun": "catalog:"
   },
@@ -15,6 +15,6 @@
     "@actions/github": "6.0.1",
     "@octokit/graphql": "9.0.1",
     "@octokit/rest": "catalog:",
-    "@cyberstrike-io/sdk": "workspace:*"
+    "@opencode-ai/sdk": "1.18.5"
   }
 }

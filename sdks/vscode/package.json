@@ -1,14 +1,14 @@
 {
-  "name": "cyberstrike",
-  "displayName": "cyberstrike",
-  "description": "cyberstrike for VS Code",
-  "version": "1.1.13",
+  "name": "opencode",
+  "displayName": "opencode",
+  "description": "opencode for VS Code",
+  "version": "2.0.15",
   "publisher": "sst-dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CyberStrikeus/CyberStrike"
+    "url": "https://github.com/anomalyco/opencode"
   },
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "icon": "images/icon.png",
   "galleryBanner": {
     "color": "#000000",
@@ -25,54 +25,54 @@
   "contributes": {
     "commands": [
       {
-        "command": "cyberstrike.openTerminal",
-        "title": "Open cyberstrike",
+        "command": "opencode.openTerminal",
+        "title": "Open opencode",
         "icon": {
           "light": "images/button-dark.svg",
           "dark": "images/button-light.svg"
         }
       },
       {
-        "command": "cyberstrike.openNewTerminal",
-        "title": "Open cyberstrike in new tab",
+        "command": "opencode.openNewTerminal",
+        "title": "Open opencode in new tab",
         "icon": {
           "light": "images/button-dark.svg",
           "dark": "images/button-light.svg"
         }
       },
       {
-        "command": "cyberstrike.addFilepathToTerminal",
+        "command": "opencode.addFilepathToTerminal",
         "title": "Add Filepath to Terminal"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "cyberstrike.openNewTerminal",
+          "command": "opencode.openNewTerminal",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "cyberstrike.openTerminal",
-        "title": "Run cyberstrike",
+        "command": "opencode.openTerminal",
+        "title": "Run opencode",
         "key": "cmd+escape",
         "mac": "cmd+escape",
         "win": "ctrl+escape",
         "linux": "ctrl+escape"
       },
       {
-        "command": "cyberstrike.openNewTerminal",
-        "title": "Run cyberstrike",
+        "command": "opencode.openNewTerminal",
+        "title": "Run opencode",
         "key": "cmd+shift+escape",
         "mac": "cmd+shift+escape",
         "win": "ctrl+shift+escape",
         "linux": "ctrl+shift+escape"
       },
       {
-        "command": "cyberstrike.addFilepathToTerminal",
-        "title": "cyberstrike: Insert At-Mentioned",
+        "command": "opencode.addFilepathToTerminal",
+        "title": "opencode: Insert At-Mentioned",
         "key": "cmd+alt+k",
         "mac": "cmd+alt+k",
         "win": "ctrl+alt+K",

@@ -3,27 +3,27 @@
  */
 export const config = {
   // Base URL
-  baseUrl: "https://cyberstrike.io",
+  baseUrl: "https://opencode.ai",
 
   // GitHub
   github: {
-    repoUrl: "https://github.com/CyberStrikeus/CyberStrike",
+    repoUrl: "https://github.com/anomalyco/opencode",
     starsFormatted: {
-      compact: "100K",
-      full: "100,000",
+      compact: "205K",
+      full: "205,000",
     },
   },
 
   // Social links
   social: {
-    twitter: "https://x.com/cyberstrike",
-    discord: "https://discord.gg/snunAaHf6U",
+    twitter: "https://x.com/opencode",
+    discord: "https://discord.gg/opencode",
   },
 
   // Static stats (used on landing page)
   stats: {
-    contributors: "700",
-    commits: "9,000",
-    monthlyUsers: "2.5M",
+    contributors: "950",
+    commits: "13,000",
+    monthlyUsers: "16M",
   },
 } as const

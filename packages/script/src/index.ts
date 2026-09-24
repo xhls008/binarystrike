@@ -1,4 +1,5 @@
-import { $, semver } from "bun"
+import { $ } from "bun"
+import semver from "semver"
 import path from "path"
 
 const rootPkgPath = path.resolve(import.meta.dir, "../../../package.json")
@@ -17,76 +18,52 @@ if (!semver.satisfies(process.versions.bun, expectedBunVersionRange)) {
 }
 
 const env = {
-  CYBERSTRIKE_CHANNEL: process.env["CYBERSTRIKE_CHANNEL"],
-  CYBERSTRIKE_BUMP: process.env["CYBERSTRIKE_BUMP"],
-  CYBERSTRIKE_VERSION: process.env["CYBERSTRIKE_VERSION"],
-  CYBERSTRIKE_RELEASE: process.env["CYBERSTRIKE_RELEASE"],
+  OPENCODE_CHANNEL: process.env["OPENCODE_CHANNEL"],
+  OPENCODE_BUMP: process.env["OPENCODE_BUMP"],
+  OPENCODE_VERSION: process.env["OPENCODE_VERSION"],
+  OPENCODE_RELEASE: process.env["OPENCODE_RELEASE"],
 }
 const CHANNEL = await (async () => {
-  if (env.CYBERSTRIKE_CHANNEL) return env.CYBERSTRIKE_CHANNEL
-  if (env.CYBERSTRIKE_BUMP === "beta") return "beta"
-  if (env.CYBERSTRIKE_BUMP) return "latest"
-  if (env.CYBERSTRIKE_VERSION && !env.CYBERSTRIKE_VERSION.startsWith("0.0.0-")) {
-    // Extract prerelease tag from semver (e.g. "1.1.6-beta.1" → "beta")
-    const pre = env.CYBERSTRIKE_VERSION.match(/-([a-z]+)/i)?.[1]
-    return pre ?? "latest"
-  }
+  if (env.OPENCODE_CHANNEL) return env.OPENCODE_CHANNEL
+  if (env.OPENCODE_BUMP) return "latest"
+  if (env.OPENCODE_VERSION && !env.OPENCODE_VERSION.startsWith("0.0.0-")) return "latest"
   return await $`git branch --show-current`.text().then((x) => x.trim())
 })()
 const IS_PREVIEW = CHANNEL !== "latest"
 
 const VERSION = await (async () => {
-  if (env.CYBERSTRIKE_VERSION) return env.CYBERSTRIKE_VERSION
-  if (IS_PREVIEW && env.CYBERSTRIKE_BUMP !== "beta")
-    return `0.0.0-${CHANNEL}-${new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "")}`
-
-  const registry = (await fetch("https://registry.npmjs.org/@cyberstrike-io%2Fcyberstrike").then((res) => {
-    if (!res.ok) throw new Error(res.statusText)
-    return res.json()
-  })) as { "dist-tags": Record<string, string>; versions: Record<string, unknown> }
-
-  if (env.CYBERSTRIKE_BUMP === "beta") {
-    const latest = registry["dist-tags"]?.latest
-    if (!latest) throw new Error("No published latest version found on npm")
-    const [major, minor, patch] = latest.split(".").map((x: string) => Number(x) || 0)
-
-    const beta = registry["dist-tags"]?.beta
-    if (beta) {
-      const betaMatch = beta.match(/^(\d+)\.(\d+)\.(\d+)-beta\.(\d+)$/)
-      if (betaMatch) {
-        const [, bMaj, bMin, bPatch, bNum] = betaMatch
-        const sameMajor = Number(bMaj) === major
-        const sameMinor = Number(bMin) === minor
-        const samePatch = Number(bPatch) === patch + 1
-        if (sameMajor && sameMinor && samePatch) {
-          return `${bMaj}.${bMin}.${bPatch}-beta.${Number(bNum) + 1}`
-        }
-      }
-    }
-    return `${major}.${minor}.${patch + 1}-beta.0`
-  }
-
-  const version = registry["dist-tags"]?.latest
-  if (!version) throw new Error("No published latest version found on npm")
+  if (env.OPENCODE_VERSION) return env.OPENCODE_VERSION
+  if (IS_PREVIEW) return `0.0.0-${CHANNEL}-${previewBuildNumber()}`
+  const version = await fetch("https://registry.npmjs.org/@opencode%2fcli/latest")
+    .then((res) => {
+      if (!res.ok) throw new Error(res.statusText)
+      return res.json()
+    })
+    .then((data: any) => data.version)
+  if (semver.lt(version, "2.0.0")) return "2.0.0"
   const [major, minor, patch] = version.split(".").map((x: string) => Number(x) || 0)
-  const t = env.CYBERSTRIKE_BUMP?.toLowerCase()
+  const t = env.OPENCODE_BUMP?.toLowerCase()
   if (t === "major") return `${major + 1}.0.0`
   if (t === "minor") return `${major}.${minor + 1}.0`
   return `${major}.${minor}.${patch + 1}`
 })()
 
+function previewBuildNumber() {
+  const runNumber = process.env["GITHUB_RUN_NUMBER"]
+  if (!runNumber) return new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "")
+  const runAttempt = process.env["GITHUB_RUN_ATTEMPT"]
+  if (runAttempt && runAttempt !== "1") return `${runNumber}.${runAttempt}`
+  return runNumber
+}
+
+const bot = ["actions-user", "opencode", "opencode-agent[bot]"]
+const teamPath = path.resolve(import.meta.dir, "../../../.github/TEAM_MEMBERS")
 const team = [
-  "actions-user",
-  "cyberstrike",
-  "rekram1-node",
-  "thdxr",
-  "kommander",
-  "jayair",
-  "fwang",
-  "adamdotdevin",
-  "iamdavidhill",
-  "cyberstrike-agent[bot]",
-  "R44VC0RP",
+  ...(await Bun.file(teamPath)
+    .text()
+    .then((x) => x.split(/\r?\n/).map((x) => x.trim()))
+    .then((x) => x.filter((x) => x && !x.startsWith("#")))),
+  ...bot,
 ]
 
 export const Script = {
@@ -100,10 +77,10 @@ export const Script = {
     return IS_PREVIEW
   },
   get release(): boolean {
-    return !!env.CYBERSTRIKE_RELEASE
+    return !!env.OPENCODE_RELEASE
   },
   get team() {
     return team
   },
 }
-console.log(`cyberstrike script`, JSON.stringify(Script, null, 2))
+console.log(`opencode script`, JSON.stringify(Script, null, 2))

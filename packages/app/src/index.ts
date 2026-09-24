@@ -1,4 +1,3 @@
-export { PlatformProvider, type Platform, type DisplayBackend } from "./context/platform"
-export { AppBaseProviders, AppInterface } from "./app"
-export { useCommand } from "./context/command"
-export { handleNotificationClick } from "./utils/notification-click"
+export { AppBaseProviders, AppInterface, preloadRoute } from "./app"
+export { type FatalRendererErrorLog, type Platform, PlatformProvider } from "./runtime/platform/platform"
+export { ServerConnection } from "./runtime/server/registry"

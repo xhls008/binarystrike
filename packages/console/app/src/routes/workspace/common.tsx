@@ -1,11 +1,11 @@
-import { Resource } from "@cyberstrike-io/console-resource"
-import { Actor } from "@cyberstrike-io/console-core/actor.js"
+import { Resource } from "@opencode/console-resource"
+import { Actor } from "@opencode/console-core/actor.js"
 import { action, json, query } from "@solidjs/router"
 import { withActor } from "~/context/auth.withActor"
-import { Billing } from "@cyberstrike-io/console-core/billing.js"
-import { and, Database, desc, eq, isNull } from "@cyberstrike-io/console-core/drizzle/index.js"
-import { WorkspaceTable } from "@cyberstrike-io/console-core/schema/workspace.sql.js"
-import { UserTable } from "@cyberstrike-io/console-core/schema/user.sql.js"
+import { Billing } from "@opencode/console-core/billing.js"
+import { and, Database, desc, eq, isNull } from "@opencode/console-core/drizzle/index.js"
+import { WorkspaceTable } from "@opencode/console-core/schema/workspace.sql.js"
+import { UserTable } from "@opencode/console-core/schema/user.sql.js"
 
 export function formatDateForTable(date: Date) {
   const options: Intl.DateTimeFormatOptions = {
@@ -115,6 +115,8 @@ export const queryBillingInfo = query(async (workspaceID: string) => {
       subscriptionPlan: billing.subscriptionPlan,
       timeSubscriptionBooked: billing.timeSubscriptionBooked,
       timeSubscriptionSelected: billing.timeSubscriptionSelected,
+      lite: billing.lite,
+      liteSubscriptionID: billing.liteSubscriptionID,
     }
   }, workspaceID)
 }, "billing.get")

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-root="${BINARYSTRIKE_ROOT:-/home/flybear/flybear_data/llm_tools/binarystrike}"
-export PATH="$HOME/.bun/bin:$PATH"
-export BINARYSTRIKE_PROJECT_CWD="${BINARYSTRIKE_PROJECT_CWD:-$PWD}"
-
-exec bun run --cwd "$root/packages/cyberstrike" --conditions=browser src/index.ts "$@"

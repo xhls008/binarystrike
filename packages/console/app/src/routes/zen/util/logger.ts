@@ -1,4 +1,4 @@
-import { Resource } from "@cyberstrike-io/console-resource"
+import { Resource } from "@opencode/console-resource"
 
 export const logger = {
   metric: (values: Record<string, any>) => {

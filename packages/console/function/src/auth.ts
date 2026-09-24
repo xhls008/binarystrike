@@ -7,16 +7,16 @@ import { THEME_OPENAUTH } from "@openauthjs/openauth/ui/theme"
 import { GithubProvider } from "@openauthjs/openauth/provider/github"
 import { GoogleOidcProvider } from "@openauthjs/openauth/provider/google"
 import { CloudflareStorage } from "@openauthjs/openauth/storage/cloudflare"
-import { Account } from "@cyberstrike-io/console-core/account.js"
-import { Workspace } from "@cyberstrike-io/console-core/workspace.js"
-import { Actor } from "@cyberstrike-io/console-core/actor.js"
-import { Resource } from "@cyberstrike-io/console-resource"
-import { User } from "@cyberstrike-io/console-core/user.js"
-import { and, Database, eq, isNull, or } from "@cyberstrike-io/console-core/drizzle/index.js"
-import { WorkspaceTable } from "@cyberstrike-io/console-core/schema/workspace.sql.js"
-import { UserTable } from "@cyberstrike-io/console-core/schema/user.sql.js"
-import { AuthTable } from "@cyberstrike-io/console-core/schema/auth.sql.js"
-import { Identifier } from "@cyberstrike-io/console-core/identifier.js"
+import { Account } from "@opencode/console-core/account.js"
+import { Workspace } from "@opencode/console-core/workspace.js"
+import { Actor } from "@opencode/console-core/actor.js"
+import { Resource } from "@opencode/console-resource"
+import { User } from "@opencode/console-core/user.js"
+import { and, Database, eq, isNull, or } from "@opencode/console-core/drizzle/index.js"
+import { WorkspaceTable } from "@opencode/console-core/schema/workspace.sql.js"
+import { UserTable } from "@opencode/console-core/schema/user.sql.js"
+import { AuthTable } from "@opencode/console-core/schema/auth.sql.js"
+import { Identifier } from "@opencode/console-core/identifier.js"
 
 type Env = {
   AuthStorage: KVNamespace
@@ -26,6 +26,7 @@ export const subjects = createSubjects({
   account: z.object({
     accountID: z.string(),
     email: z.string(),
+    newAccount: z.boolean().optional(),
   }),
   user: z.object({
     userID: z.string(),
@@ -35,7 +36,7 @@ export const subjects = createSubjects({
 
 const MY_THEME: Theme = {
   ...THEME_OPENAUTH,
-  logo: "https://cyberstrike.io/favicon-v3.svg",
+  logo: "https://opencode.ai/favicon-v3.svg",
 }
 
 export default {
@@ -111,14 +112,14 @@ export default {
           const emails = (await fetch("https://api.github.com/user/emails", {
             headers: {
               Authorization: `Bearer ${response.tokenset.access}`,
-              "User-Agent": "cyberstrike",
+              "User-Agent": "opencode",
               Accept: "application/vnd.github+json",
             },
           }).then((x) => x.json())) as any
           const user = (await fetch("https://api.github.com/user", {
             headers: {
               Authorization: `Bearer ${response.tokenset.access}`,
-              "User-Agent": "cyberstrike",
+              "User-Agent": "opencode",
               Accept: "application/vnd.github+json",
             },
           }).then((x) => x.json())) as any
@@ -142,6 +143,7 @@ export default {
         }
 
         // Get account
+        let newAccount = false
         const accountID = await (async () => {
           const matches = await Database.use(async (tx) =>
             tx
@@ -166,6 +168,7 @@ export default {
           if (!accountID) {
             console.log("creating account for", email)
             accountID = await Account.create({})
+            newAccount = true
           }
 
           await Database.use(async (tx) =>
@@ -215,7 +218,7 @@ export default {
             await Workspace.create({ name: "Default" })
           }
         })
-        return ctx.subject("account", accountID, { accountID, email })
+        return ctx.subject("account", accountID, { accountID, email, newAccount })
       },
     }).fetch(request, env, ctx)
     return result

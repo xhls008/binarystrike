@@ -1,153 +1,94 @@
 import "@/index.css"
-import { createMemo, ErrorBoundary, Match, Show, Suspense, Switch, lazy, type JSX, type ParentProps } from "solid-js"
-import { Router, Route, Navigate } from "@solidjs/router"
+import { DialogProvider } from "@opencode/ui/context/dialog"
+import { FileComponentProvider } from "@opencode/ui/context/file"
+import { Font } from "@opencode/ui/font"
+import { ThemeProvider } from "@opencode/ui/theme/context"
 import { MetaProvider } from "@solidjs/meta"
-import { Font } from "@cyberstrike-io/ui/font"
-import { MarkedProvider } from "@cyberstrike-io/ui/context/marked"
-import { DiffComponentProvider } from "@cyberstrike-io/ui/context/diff"
-import { CodeComponentProvider } from "@cyberstrike-io/ui/context/code"
-import { I18nProvider } from "@cyberstrike-io/ui/context"
-import { Diff } from "@cyberstrike-io/ui/diff"
-import { Code } from "@cyberstrike-io/ui/code"
-import { ThemeProvider } from "@cyberstrike-io/ui/theme"
-import { GlobalSyncProvider } from "@/context/global-sync"
-import { PermissionProvider } from "@/context/permission"
-import { LayoutProvider } from "@/context/layout"
-import { GlobalSDKProvider } from "@/context/global-sdk"
-import { normalizeServerUrl, ServerProvider, useServer } from "@/context/server"
-import { HubConnectScreen } from "@/components/hub-connect"
-import { SettingsProvider } from "@/context/settings"
-import { TerminalProvider } from "@/context/terminal"
-import { PromptProvider } from "@/context/prompt"
-import { FileProvider } from "@/context/file"
-import { CommentsProvider } from "@/context/comments"
-import { NotificationProvider } from "@/context/notification"
-import { ModelsProvider } from "@/context/models"
-import { DialogProvider } from "@cyberstrike-io/ui/context/dialog"
-import { CommandProvider } from "@/context/command"
-import { LanguageProvider, useLanguage } from "@/context/language"
-import { usePlatform } from "@/context/platform"
-import { HighlightsProvider } from "@/context/highlights"
-import Layout from "@/pages/layout"
-import DirectoryLayout from "@/pages/directory-layout"
-import { ErrorPage } from "./pages/error"
-const Home = lazy(() => import("@/pages/home"))
-const Session = lazy(() => import("@/pages/session"))
-const Loading = () => <div class="size-full" />
+import { type BaseRouterProps, Router, useLocation } from "@solidjs/router"
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query"
+import { type Component, createRenderEffect, ErrorBoundary, type JSX, type ParentProps, Show } from "solid-js"
+import { Dynamic } from "solid-js/web"
+import { CommandProvider } from "@/shell/commands/command"
+import { DesktopCommands } from "@/shell/commands/desktop"
+import { GlobalProvider } from "@/runtime/server/runtime"
+import { HighlightsProvider } from "@/shell/updates/highlights"
+import { LanguageProvider, UiI18nBridge, type Locale } from "@/runtime/i18n/language"
+import { ServerConnection, ServersProvider } from "@/runtime/server/registry"
+import { SettingsProvider } from "@/settings/model"
+import { TabsProvider } from "@/shell/tabs/tabs"
+import { WslServersProvider } from "@/servers/wsl/context"
+import { SshProvider } from "@/servers/ssh/context"
+import { SshRestore } from "@/servers/ssh/restore"
+import { ErrorPage } from "@/shell/errors/error"
+import { AppRoutes, File, preloadRoute } from "@/shell/routes/routes"
 
-const HomeRoute = () => (
-  <Suspense fallback={<Loading />}>
-    <Home />
-  </Suspense>
-)
-
-const SessionRoute = () => (
-  <SessionProviders>
-    <Suspense fallback={<Loading />}>
-      <Session />
-    </Suspense>
-  </SessionProviders>
-)
-
-const SessionIndexRoute = () => <Navigate href="session" />
-
-function UiI18nBridge(props: ParentProps) {
-  const language = useLanguage()
-  return <I18nProvider value={{ locale: language.locale, t: language.t }}>{props.children}</I18nProvider>
-}
+export { preloadRoute }
 
 declare global {
   interface Window {
-    __CYBERSTRIKE__?: { updaterEnabled?: boolean; serverPassword?: string; deepLinks?: string[]; wsl?: boolean }
+    api?: {
+      setTitlebar?: (theme: { mode: "light" | "dark"; scheme?: "system" | "light" | "dark" }) => Promise<void>
+      exportDebugLogs?: () => Promise<string>
+    }
   }
 }
 
-function MarkedProviderWithNativeParser(props: ParentProps) {
-  const platform = usePlatform()
-  return <MarkedProvider nativeParser={platform.parseMarkdown}>{props.children}</MarkedProvider>
+function QueryProvider(props: ParentProps) {
+  const client = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+      },
+    },
+  })
+  return <QueryClientProvider client={client}>{props.children}</QueryClientProvider>
 }
 
-function AppShellProviders(props: ParentProps) {
-  return (
-    <SettingsProvider>
-      <PermissionProvider>
-        <LayoutProvider>
-          <NotificationProvider>
-            <ModelsProvider>
-              <CommandProvider>
-                <HighlightsProvider>
-                  <Layout>{props.children}</Layout>
-                </HighlightsProvider>
-              </CommandProvider>
-            </ModelsProvider>
-          </NotificationProvider>
-        </LayoutProvider>
-      </PermissionProvider>
-    </SettingsProvider>
-  )
+function BodyTypography() {
+  createRenderEffect(() => {
+    if (typeof document === "undefined") return
+    document.body.classList.remove("text-12-regular")
+    document.body.classList.add("font-(family-name:--font-family-text)", "text-[13px]", "font-[440]")
+  })
+
+  return null
 }
 
-function SessionProviders(props: ParentProps) {
-  return (
-    <TerminalProvider>
-      <FileProvider>
-        <PromptProvider>
-          <CommentsProvider>{props.children}</CommentsProvider>
-        </PromptProvider>
-      </FileProvider>
-    </TerminalProvider>
-  )
-}
-
-function RouterRoot(props: ParentProps<{ appChildren?: JSX.Element }>) {
-  return (
-    <AppShellProviders>
-      {props.appChildren}
-      {props.children}
-    </AppShellProviders>
-  )
-}
-
-const getStoredDefaultServerUrl = (platform: ReturnType<typeof usePlatform>) => {
-  if (platform.platform !== "web") return
-  const result = platform.getDefaultServerUrl?.()
-  if (result instanceof Promise) return
-  if (!result) return
-  return normalizeServerUrl(result)
-}
-
-const resolveDefaultServerUrl = (props: {
-  defaultUrl?: string
-  storedDefaultServerUrl?: string
-  hostname: string
-  origin: string
-  isDev: boolean
-  devHost?: string
-  devPort?: string
-}) => {
-  if (props.defaultUrl) return props.defaultUrl
-  // Hub mode: always show connect screen (storedDefault may point to stale localhost)
-  if (props.hostname.includes("cyberstrike.io")) return ""
-  if (props.storedDefaultServerUrl) return props.storedDefaultServerUrl
-  if (props.isDev) return `http://${props.devHost ?? "localhost"}:${props.devPort ?? "4096"}`
-  return props.origin
-}
-
-export function AppBaseProviders(props: ParentProps) {
+export function AppBaseProviders(
+  props: ParentProps<{
+    locale?: Locale
+    onNativeTranslations?: Parameters<typeof LanguageProvider>[0]["onNativeTranslations"]
+    onThemeApplied?: (mode: "light" | "dark", scheme: "system" | "light" | "dark") => void
+  }>,
+) {
   return (
     <MetaProvider>
       <Font />
-      <ThemeProvider>
-        <LanguageProvider>
+      <ThemeProvider
+        onThemeApplied={(_, mode, scheme) => {
+          void window.api?.setTitlebar?.({ mode, scheme })
+          props.onThemeApplied?.(mode, scheme)
+        }}
+      >
+        <LanguageProvider locale={props.locale} onNativeTranslations={props.onNativeTranslations}>
           <UiI18nBridge>
-            <ErrorBoundary fallback={(error) => <ErrorPage error={error} />}>
-              <DialogProvider>
-                <MarkedProviderWithNativeParser>
-                  <DiffComponentProvider component={Diff}>
-                    <CodeComponentProvider component={Code}>{props.children}</CodeComponentProvider>
-                  </DiffComponentProvider>
-                </MarkedProviderWithNativeParser>
-              </DialogProvider>
+            <ErrorBoundary
+              fallback={(error) => {
+                void import("@sentry/solid").then(({ captureException }) => captureException(error))
+                return <ErrorPage error={error} />
+              }}
+            >
+              <QueryProvider>
+                <WslServersProvider>
+                  <DialogProvider>
+                    <SshProvider>
+                      <FileComponentProvider component={File}>{props.children}</FileComponentProvider>
+                    </SshProvider>
+                  </DialogProvider>
+                </WslServersProvider>
+              </QueryProvider>
             </ErrorBoundary>
           </UiI18nBridge>
         </LanguageProvider>
@@ -156,71 +97,51 @@ export function AppBaseProviders(props: ParentProps) {
   )
 }
 
-function HubGate(props: ParentProps & { active: boolean }) {
-  const server = useServer()
-  const gate = createMemo(() => {
-    if (!props.active) return "pass"
-    if (!server.current) return "connect"
-    return server.healthy() === true ? "pass" : "connect"
-  })
-  return (
-    <Switch>
-      <Match when={gate() === "pass"}>{props.children}</Match>
-      <Match when={gate() === "connect"}>
-        <HubConnectScreen />
-      </Match>
-    </Switch>
-  )
-}
-
-function ServerKey(props: ParentProps) {
-  const server = useServer()
-  const key = createMemo(() => {
-    const c = server.current
-    if (!c) return ""
-    return `${c.http.url}\n${c.http.username ?? ""}\n${c.http.password ?? ""}`
-  })
-  return (
-    <Show when={key()} keyed>
-      {props.children}
-    </Show>
-  )
-}
-
-export function AppInterface(props: { defaultUrl?: string; children?: JSX.Element; isSidecar?: boolean }) {
-  const platform = usePlatform()
-  const storedDefaultServerUrl = getStoredDefaultServerUrl(platform)
-  const isHub = !props.defaultUrl && !props.isSidecar && location.hostname.includes("cyberstrike.io")
-  if (isHub) console.info("[cyberstrike] hub mode:", location.hostname)
-  const defaultServerUrl = resolveDefaultServerUrl({
-    defaultUrl: props.defaultUrl,
-    storedDefaultServerUrl,
-    hostname: location.hostname,
-    origin: window.location.origin,
-    isDev: import.meta.env.DEV,
-    devHost: import.meta.env.VITE_CYBERSTRIKE_SERVER_HOST,
-    devPort: import.meta.env.VITE_CYBERSTRIKE_SERVER_PORT,
-  })
+export function AppInterface(props: {
+  children?: JSX.Element
+  defaultServer?: ServerConnection.Key
+  canonicalLocalServer?: ServerConnection.Key
+  servers?: Array<ServerConnection.Any>
+  router?: Component<BaseRouterProps>
+}) {
+  // The visual layout lives in the router root so it remains mounted across
+  // route changes. Draft and session routes override only their server-bound data
+  // providers beneath it.
+  const Root = (rootProps: ParentProps) => {
+    const location = useLocation()
+    // Pairing saves credentials before mounting any server connections or health checks.
+    return (
+      <>
+        <BodyTypography />
+        <Show when={location.pathname !== "/connect"} fallback={rootProps.children}>
+          <TabsProvider>
+            <GlobalProvider>
+              <CommandProvider>
+                <DesktopCommands />
+                <SshRestore />
+                <HighlightsProvider>
+                  {props.children}
+                  {rootProps.children}
+                </HighlightsProvider>
+              </CommandProvider>
+            </GlobalProvider>
+          </TabsProvider>
+        </Show>
+      </>
+    )
+  }
 
   return (
-    <ServerProvider defaultUrl={defaultServerUrl} isSidecar={props.isSidecar}>
-      <HubGate active={isHub}>
-        <ServerKey>
-          <GlobalSDKProvider>
-            <GlobalSyncProvider>
-              <Router
-                root={(routerProps) => <RouterRoot appChildren={props.children}>{routerProps.children}</RouterRoot>}
-              >
-                <Route path="/" component={HomeRoute} />
-                <Route path="/:dir" component={DirectoryLayout}>
-                  <Route path="/" component={SessionIndexRoute} />
-                  <Route path="/session/:id?" component={SessionRoute} />
-                </Route>
-              </Router>
-            </GlobalSyncProvider>
-          </GlobalSDKProvider>
-        </ServerKey>
-      </HubGate>
-    </ServerProvider>
+    <ServersProvider
+      defaultServer={props.defaultServer}
+      canonicalLocalServer={props.canonicalLocalServer}
+      servers={props.servers}
+    >
+      <SettingsProvider>
+        <Dynamic component={props.router ?? Router} root={Root}>
+          <AppRoutes />
+        </Dynamic>
+      </SettingsProvider>
+    </ServersProvider>
   )
 }

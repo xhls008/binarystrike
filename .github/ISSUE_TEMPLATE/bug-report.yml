@@ -1,15 +1,30 @@
-name: Bug Report
-description: Report a bug or unexpected behavior
-labels: ["bug"]
+name: Bug report
+description: Report an issue that should be fixed (avoid pasting giant AI generated summaries or your issue may be closed/ignored)
 body:
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: What happened? What did you expect to happen?
-      placeholder: Describe the bug clearly
+      description: Describe the bug you encountered
+      placeholder: What happened?
     validations:
       required: true
+
+  - type: input
+    id: plugins
+    attributes:
+      label: Plugins
+      description: What plugins are you using?
+    validations:
+      required: false
+
+  - type: input
+    id: opencode-version
+    attributes:
+      label: OpenCode version
+      description: What version of OpenCode are you using?
+    validations:
+      required: false
 
   - type: textarea
     id: reproduce
@@ -21,67 +36,14 @@ body:
         2.
         3.
     validations:
-      required: true
-
-  - type: dropdown
-    id: agent
-    attributes:
-      label: Agent
-      description: Which agent were you using?
-      options:
-        - cyberstrike (default)
-        - web-application
-        - mobile-application
-        - cloud-security
-        - internal-network
-        - proxy-idor
-        - proxy-authz-bypass
-        - proxy-mass-assignment
-        - proxy-injection
-        - proxy-authn
-        - proxy-business-logic
-        - proxy-ssrf
-        - proxy-file-attacks
-        - Other
-    validations:
       required: false
 
-  - type: dropdown
-    id: interface
+  - type: textarea
+    id: screenshot-or-link
     attributes:
-      label: Interface
-      description: Which interface were you using?
-      options:
-        - CLI / TUI
-        - Web UI
-        - Desktop App (Tauri)
-    validations:
-      required: false
-
-  - type: dropdown
-    id: provider
-    attributes:
-      label: LLM Provider
-      description: Which AI provider were you using?
-      options:
-        - Anthropic
-        - OpenAI
-        - Google
-        - Amazon Bedrock
-        - Azure
-        - Groq
-        - Mistral
-        - OpenRouter
-        - Local / Self-hosted
-        - Other
-    validations:
-      required: false
-
-  - type: input
-    id: cyberstrike-version
-    attributes:
-      label: CyberStrike version
-      description: Run `cyberstrike --version`
+      label: Screenshot and/or share link
+      description: Run `/share` to get a share link, or attach a screenshot
+      placeholder: Paste link or drag and drop screenshot here
     validations:
       required: false
 
@@ -89,7 +51,8 @@ body:
     id: os
     attributes:
       label: Operating System
-      placeholder: e.g., macOS 15.0, Ubuntu 24.04, Windows 11
+      description: what OS are you using?
+      placeholder: e.g., macOS 26.0.1, Ubuntu 22.04, Windows 11
     validations:
       required: false
 
@@ -97,15 +60,7 @@ body:
     id: terminal
     attributes:
       label: Terminal
+      description: what terminal are you using?
       placeholder: e.g., iTerm2, Ghostty, Alacritty, Windows Terminal
-    validations:
-      required: false
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: Logs / Screenshots
-      description: Paste relevant logs, error messages, or attach screenshots
-      render: shell
     validations:
       required: false

@@ -1,4 +1,20 @@
 <p align="center">
+  <a href="https://opencode.ai">
+    <picture>
+      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
+      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
+      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="OpenCode logo">
+    </picture>
+  </a>
+</p>
+<p align="center">Открытый AI-агент для программирования.</p>
+<p align="center">
+  <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
+  <a href="https://www.npmjs.com/package/opencode-ai"><img alt="npm" src="https://img.shields.io/npm/v/opencode-ai?style=flat-square" /></a>
+  <a href="https://github.com/anomalyco/opencode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/opencode/publish.yml?style=flat-square&branch=dev" /></a>
+</p>
+
+<p align="center">
   <a href="README.md">English</a> |
   <a href="README.zh.md">简体中文</a> |
   <a href="README.zht.md">繁體中文</a> |
@@ -19,246 +35,95 @@
   <a href="README.tr.md">Türkçe</a> |
   <a href="README.uk.md">Українська</a> |
   <a href="README.bn.md">বাংলা</a> |
-  <a href="README.el.md">Ελληνικά</a> |
-  <a href="README.vi.md">Tiếng Việt</a> |
-  <a href="README.hi.md">हिन्दी</a>
+  <a href="README.gr.md">Ελληνικά</a> |
+  <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-<p align="center">
-  <picture>
-    <source srcset="assets/social-preview-dark.svg" media="(prefers-color-scheme: dark)">
-    <source srcset="assets/social-preview-light.svg" media="(prefers-color-scheme: light)">
-    <img src="assets/social-preview-dark.svg" alt="CyberStrike" width="800">
-  </picture>
-</p>
-
-<h3 align="center">Первый open-source AI-агент, созданный для наступательной безопасности.</h3>
-
-<p align="center">
-  Автономное пентестирование из вашего терминала — разведка, обнаружение уязвимостей, эксплуатация и отчётность.<br>
-  Одна команда. 13+ специализированных агентов. 120+ тестовых сценариев OWASP. Ваш AI red team.
-</p>
-
-<p align="center">
-  <a href="#почему-cyberstrike">Почему CyberStrike?</a> &bull;
-  <a href="#чем-он-отличается">Чем Он Отличается</a> &bull;
-  <a href="#агенты">Агенты</a> &bull;
-  <a href="#экосистема-mcp">Экосистема MCP</a> &bull;
-  <a href="#bolt">Bolt</a> &bull;
-  <a href="#установка">Установка</a> &bull;
-  <a href="#встроенные-инструменты">Встроенные Инструменты</a> &bull;
-  <a href="#для-кого-это">Для Кого Это?</a> &bull;
-  <a href="CHANGELOG.md">Changelog</a> &bull;
-  <a href="CONTRIBUTING.md">Contributing</a>
-</p>
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/@cyberstrike-io/cyberstrike"><img alt="npm" src="https://img.shields.io/npm/v/@cyberstrike-io/cyberstrike?style=flat-square&color=00ff41" /></a>
-  <a href="https://github.com/CyberStrikeus/CyberStrike/actions/workflows/publish.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/CyberStrikeus/CyberStrike/publish.yml?style=flat-square&branch=dev" /></a>
-  <a href="https://discord.gg/snunAaHf6U"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord&color=00ff41" /></a>
-  <a href="https://github.com/CyberStrikeus/CyberStrike/blob/dev/LICENSE"><img alt="Лицензия" src="https://img.shields.io/badge/license-AGPL--3.0-00ff41?style=flat-square" /></a>
-</p>
-
----
-
-### Почему CyberStrike?
-
-Тестирование безопасности по-прежнему в подавляющем большинстве выполняется вручную. Пентестеры жонглируют десятками инструментов, копируют и вставляют результаты между терминалами и тратят часы на повторяющуюся разведку, прежде чем добраться до реальной поверхности атаки. Охотники за bug bounty теряют время на один и тот же workflow разведки для каждой программы.
-
-**CyberStrike меняет это.** Это автономный AI-агент, который понимает методологию наступательной безопасности — он не просто запускает инструменты, а рассуждает о том, что тестировать, связывает находки между собой и адаптирует свой подход на основе того, что обнаруживает. Представьте неутомимого члена red team в вашем терминале, который следует OWASP WSTG, знает, когда сменить направление, и пишет отчёт по завершении.
-
-```bash
-npm i -g @cyberstrike-io/cyberstrike@latest && cyberstrike
-# "Провести полную оценку OWASP WSTG на https://target.com"
-```
-
-Он open source, работает с любым провайдером LLM, и всё, что он производит, принадлежит вам.
-
----
-
-### Чем Он Отличается
-
-<table>
-<tr>
-<td width="50%">
-
-**Специализированные Агенты Безопасности, Не Обычный Чат**
-
-CyberStrike включает 13+ агентов, целенаправленно созданных для доменов безопасности. Каждый агент обладает специфической для домена методологией, знанием инструментов и паттернами тестирования. Агент web-application следует WSTG. Агент cloud-security знает бенчмарки CIS. Мобильный агент использует Frida и следует MASTG/MASVS. Они не гадают — они следуют проверенным фреймворкам.
-
-</td>
-<td width="50%">
-
-**Автономный, Не Просто Вспомогательный**
-
-Другие AI-инструменты ждут, пока вы скажете им, что делать дальше. Агенты CyberStrike планируют многоэтапные цепочки атак, выполняют инструменты, анализируют результаты, меняют направление, когда находят что-то интересное, и генерируют отчёты, подкреплённые доказательствами. Вы задаёте цель — они берут на себя методологию.
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-**Любой LLM, Без Привязки к Вендору**
-
-15+ провайдеров из коробки: Anthropic, OpenAI, Google, Amazon Bedrock, Azure, Groq, Mistral, OpenRouter — даже локальные модели через OpenAI-совместимые эндпоинты. Запускайте с Claude, GPT, Gemini или собственным self-hosted LLM. По мере того как модели становятся лучше и дешевле, CyberStrike становится лучше вместе с ними.
-
-</td>
-<td width="50%">
-
-**Удалённое Выполнение Инструментов с Bolt**
-
-Вашим инструментам безопасности не обязательно работать на вашем ноутбуке. Bolt — это удалённый сервер инструментов CyberStrike — разверните его на VPS с вашим набором для пентеста, свяжите ключами Ed25519 и управляйте всем из локального терминала по протоколу MCP. Один TUI, несколько серверов атаки.
-
-</td>
-</tr>
-</table>
-
----
-
-### Агенты
-
-Переключайтесь между агентами клавишей `Tab`. Каждый из них — специалист.
-
-| Агент                  | Область   | Что Он Делает                                                              |
-| ---------------------- | --------- | -------------------------------------------------------------------------- |
-| **cyberstrike**        | Общий     | Основной агент с полным доступом — разведка, эксплуатация, отчётность      |
-| **web-application**    | Веб       | OWASP Top 10, методология WSTG, безопасность API, тестирование сессий      |
-| **mobile-application** | Мобильные | Android/iOS, Frida/Objection, соответствие MASTG/MASVS                     |
-| **cloud-security**     | Облако    | AWS, Azure, GCP — ошибки конфигурации IAM, бенчмарки CIS, открытые ресурсы |
-| **internal-network**   | Сеть      | Active Directory, атаки Kerberos, горизонтальное перемещение, pivoting     |
-
-Плюс **8 специализированных прокси-тестеров**, перехватывающих и модифицирующих трафик для целевых классов уязвимостей:
-
-`IDOR` · `Authorization Bypass` · `Mass Assignment` · `Injection` · `Authentication` · `Business Logic` · `SSRF` · `File Attacks`
-
----
-
-### Экосистема MCP
-
-CyberStrike подключается к специализированным серверам MCP, расширяющим его возможности:
-
-| Сервер                                                                 | Инструменты | Что Добавляет                                                                  |
-| ---------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
-| [cloud-audit-mcp](https://github.com/badchars/cloud-audit-mcp)         | 38          | Аудит облачной безопасности — 60+ проверок в AWS, Azure, GCP                   |
-| [github-security-mcp](https://github.com/badchars/github-security-mcp) | 39          | Безопасность GitHub — репозитории, организация, actions, secrets, supply chain |
-| [cve-mcp](https://github.com/badchars/cve-mcp)                         | 23          | Разведка CVE — NVD, EPSS, CISA KEV, GitHub Advisory, OSV                       |
-| [osint-mcp](https://github.com/badchars/osint-mcp)                     | 37          | Разведка OSINT — Shodan, VirusTotal, SecurityTrails, Censys, DNS, WHOIS        |
-
-Все open source. Все устанавливаются через `npx`. Подключайте их к CyberStrike или используйте автономно с любым MCP-клиентом.
-
----
-
-### Bolt
-
-Bolt — это сервер удалённого выполнения инструментов CyberStrike. Вместо запуска инструментов безопасности на вашем ноутбуке разверните их на VPS (или нескольких) и управляйте всем из локального терминала.
-
-```
-┌──────────────┐         MCP Protocol         ┌──────────────────┐
-│  Your Laptop │  ◄──── Ed25519 Auth ────►    │  VPS / Cloud     │
-│  CyberStrike │         over HTTPS           │  Bolt Server     │
-│  TUI         │                               │  nmap, nuclei,   │
-│              │  ◄──── Tool Results ────►     │  sqlmap, ffuf...  │
-└──────────────┘                               └──────────────────┘
-```
-
-**Как это работает:**
-
-- Разверните Bolt на любом сервере с установленным набором инструментов для пентеста
-- Свяжите ключами Ed25519 — без паролей, без общих секретов
-- Агенты CyberStrike вызывают инструменты удалённо по протоколу MCP
-- Результаты передаются в реальном времени в ваш локальный TUI
-- Управляйте подключениями из TUI: добавление, удаление, мониторинг статуса
-
-**Почему это важно:** Ваша поверхность атаки остаётся на выделенной инфраструктуре. Запускайте тяжёлые сканирования с VPS с лучшей пропускной способностью, держите инструменты обновлёнными в одном месте и переключайтесь между несколькими серверами атаки из одного терминала.
+[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
 
 ---
 
 ### Установка
 
 ```bash
-# npm / bun / pnpm / yarn
-npm i -g @cyberstrike-io/cyberstrike@latest
+# YOLO
+curl -fsSL https://opencode.ai/install | bash
 
-# macOS
-brew install CyberStrikeus/tap/cyberstrike
-
-# Windows
-scoop install cyberstrike
-
-# curl (Linux/macOS)
-curl -fsSL https://cyberstrike.io/install | bash
+# Менеджеры пакетов
+npm i -g opencode-ai@latest        # или bun/pnpm/yarn
+scoop install opencode             # Windows
+choco install opencode             # Windows
+brew install anomalyco/tap/opencode # macOS и Linux (рекомендуем, всегда актуально)
+brew install opencode              # macOS и Linux (официальная формула brew, обновляется реже)
+sudo pacman -S opencode            # Arch Linux (Stable)
+paru -S opencode-bin               # Arch Linux (Latest from AUR)
+mise use -g opencode               # любая ОС
+nix run nixpkgs#opencode           # или github:anomalyco/opencode для самой свежей ветки dev
 ```
 
-**Десктопное приложение** (macOS, Windows, Linux) — скачайте со [страницы релизов](https://github.com/CyberStrikeus/CyberStrike/releases) или:
+> [!TIP]
+> Перед установкой удалите версии старше 0.1.x.
+
+### Десктопное приложение (BETA)
+
+OpenCode также доступен как десктопное приложение. Скачайте его со [страницы релизов](https://github.com/anomalyco/opencode/releases) или с [opencode.ai/download](https://opencode.ai/download).
+
+| Платформа             | Загрузка                           |
+| --------------------- | ---------------------------------- |
+| macOS (Apple Silicon) | `opencode-desktop-mac-arm64.dmg`   |
+| macOS (Intel)         | `opencode-desktop-mac-x64.dmg`     |
+| Windows               | `opencode-desktop-windows-x64.exe` |
+| Linux                 | `.deb`, `.rpm` или AppImage        |
 
 ```bash
-brew install --cask cyberstrike-desktop          # macOS
-scoop bucket add extras; scoop install extras/cyberstrike-desktop  # Windows
+# macOS (Homebrew)
+brew install --cask opencode-desktop
+# Windows (Scoop)
+scoop bucket add extras; scoop install extras/opencode-desktop
 ```
 
----
+#### Каталог установки
 
-### Встроенные Инструменты
+Скрипт установки выбирает путь установки в следующем порядке приоритета:
 
-Агенты CyberStrike имеют прямой доступ к 30+ инструментам:
+1. `$OPENCODE_INSTALL_DIR` - Пользовательский каталог установки
+2. `$XDG_BIN_DIR` - Путь, совместимый со спецификацией XDG Base Directory
+3. `$HOME/bin` - Стандартный каталог пользовательских бинарников (если существует или можно создать)
+4. `$HOME/.opencode/bin` - Fallback по умолчанию
 
-| Категория        | Инструменты                                                           |
-| ---------------- | --------------------------------------------------------------------- |
-| **Выполнение**   | Shell (bash), чтение/запись/редактирование файлов, просмотр каталогов |
-| **Обнаружение**  | Web fetch, веб-поиск, поиск по коду, glob, grep                       |
-| **Безопасность** | Отчётность по уязвимостям (формат HackerOne), сбор доказательств      |
-| **Прокси**       | Перехват HTTP/HTTPS, повтор запросов, анализ трафика                  |
-| **Интеграция**   | Серверы MCP, удалённые инструменты Bolt, пользовательские плагины     |
+```bash
+# Примеры
+OPENCODE_INSTALL_DIR=/usr/local/bin curl -fsSL https://opencode.ai/install | bash
+XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+```
 
-Плюс **SDK для плагинов** — создавайте собственных агентов и инструменты, регистрируйте их во время выполнения.
+### Agents
 
----
+В OpenCode есть два встроенных агента, между которыми можно переключаться клавишей `Tab`.
 
-### Для Кого Это?
+- **build** - По умолчанию, агент с полным доступом для разработки
+- **plan** - Агент только для чтения для анализа и изучения кода
+  - По умолчанию запрещает редактирование файлов
+  - Запрашивает разрешение перед выполнением bash-команд
+  - Идеален для изучения незнакомых кодовых баз или планирования изменений
 
-- **Пентестеры** — Автоматизируйте рутинные части. Пусть агенты занимаются разведкой и начальным тестированием, пока вы сосредоточитесь на креативных цепочках атак, требующих человеческой интуиции.
-- **Охотники за Bug Bounty** — Более быстрая разведка, более широкое покрытие, последовательная методология между программами. CyberStrike не устаёт в 3 часа ночи.
-- **Команды Безопасности** — Проводите структурированные оценки OWASP с воспроизводимой методологией. Получайте отчёты, соответствующие стандартам, которые понимает ваша команда комплаенса.
-- **Исследователи Безопасности** — Расширяйте CyberStrike пользовательскими агентами и серверами MCP. Система плагинов и протокол MCP делают его платформой, а не просто инструментом.
+Также включен сабагент **general** для сложных поисков и многошаговых задач.
+Он используется внутренне и может быть вызван в сообщениях через `@general`.
 
----
+Подробнее об [agents](https://opencode.ai/docs/agents).
 
-### Участие в Разработке
+### Документация
 
-CyberStrike создаётся сообществом безопасности для сообщества безопасности. Мы приветствуем вклад в следующих направлениях:
+Больше информации о том, как настроить OpenCode: [**наши docs**](https://opencode.ai/docs).
 
-- **Агенты безопасности и навыки** — Новые методологии атак, паттерны тестирования, обнаружение уязвимостей
-- **Серверы MCP** — Подключение новых инструментов безопасности и источников данных
-- **База знаний** — Методологические руководства WSTG, MASTG, PTES, CIS
-- **Улучшения ядра** — Производительность, UX, интеграции провайдеров, исправление ошибок
+### Вклад
 
-Прочитайте [Руководство по участию](./CONTRIBUTING.md) перед отправкой PR. Все вклады должны соответствовать [политике этичного использования](./CODE_OF_CONDUCT.md) проекта — CyberStrike предназначен исключительно для авторизованного тестирования безопасности.
+Если вы хотите внести вклад в OpenCode, прочитайте [contributing docs](./CONTRIBUTING.md) перед тем, как отправлять pull request.
 
----
+### Разработка на базе OpenCode
 
-### Лицензия
-
-[AGPL-3.0-only](./LICENSE) — Бесплатно для личного и open-source использования. Коммерческая лицензия доступна через [contact@cyberstrike.io](mailto:contact@cyberstrike.io).
+Если вы делаете проект, связанный с OpenCode, и используете "opencode" как часть имени (например, "opencode-dashboard" или "opencode-mobile"), добавьте примечание в README, чтобы уточнить, что проект не создан командой OpenCode и не аффилирован с нами.
 
 ---
 
-### MCP Security Suite
-
-CyberStrike is the core platform. These MCP servers extend its capabilities:
-
-| Project                                                                | Domain                                  | Tools                                 |
-| ---------------------------------------------------------------------- | --------------------------------------- | ------------------------------------- |
-| **CyberStrike**                                                        | **Autonomous offensive security agent** | **13+ agents, 120+ OWASP test cases** |
-| [cloud-audit-mcp](https://github.com/badchars/cloud-audit-mcp)         | Cloud security (AWS/Azure/GCP)          | 38 tools, 60+ checks                  |
-| [github-security-mcp](https://github.com/badchars/github-security-mcp) | GitHub security posture                 | 39 tools, 45 checks                   |
-| [cve-mcp](https://github.com/badchars/cve-mcp)                         | Vulnerability intelligence              | 23 tools, 5 sources                   |
-| [osint-mcp](https://github.com/badchars/osint-mcp-server)              | OSINT & reconnaissance                  | 37 tools, 12 sources                  |
-
----
-
-<p align="center">
-  <a href="https://discord.gg/snunAaHf6U"><b>Discord</b></a> · <a href="https://x.com/cyberstrike"><b>X.com</b></a> · <a href="https://cyberstrike.io"><b>cyberstrike.io</b></a>
-</p>
-<p align="center">
-  <sub>Создано хакерами, которым надоело копировать и вставлять между терминалами.</sub>
-</p>
+**Присоединяйтесь к нашему сообществу** [Discord](https://discord.gg/opencode) | [X.com](https://x.com/opencode)
