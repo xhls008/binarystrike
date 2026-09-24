@@ -1,12 +1,12 @@
 {
-  "name": "opencode",
-  "displayName": "opencode",
-  "description": "opencode for VS Code",
+  "name": "binstrike",
+  "displayName": "BinStrike",
+  "description": "BinStrike V2 terminal integration for VS Code",
   "version": "2.0.15",
-  "publisher": "sst-dev",
+  "publisher": "binarystrike",
   "repository": {
     "type": "git",
-    "url": "https://github.com/anomalyco/opencode"
+    "url": "https://github.com/xhls008/binarystrike"
   },
   "license": "MIT",
   "icon": "images/icon.png",
@@ -25,60 +25,55 @@
   "contributes": {
     "commands": [
       {
-        "command": "opencode.openTerminal",
-        "title": "Open opencode",
-        "icon": {
-          "light": "images/button-dark.svg",
-          "dark": "images/button-light.svg"
-        }
+        "command": "binstrike.openTerminal",
+        "title": "BinStrike: Open Terminal"
       },
       {
-        "command": "opencode.openNewTerminal",
-        "title": "Open opencode in new tab",
-        "icon": {
-          "light": "images/button-dark.svg",
-          "dark": "images/button-light.svg"
-        }
+        "command": "binstrike.openNewTerminal",
+        "title": "BinStrike: New Terminal"
       },
       {
-        "command": "opencode.addFilepathToTerminal",
-        "title": "Add Filepath to Terminal"
+        "command": "binstrike.copyReference",
+        "title": "BinStrike: Copy File Reference"
       }
     ],
     "menus": {
       "editor/title": [
         {
-          "command": "opencode.openNewTerminal",
+          "command": "binstrike.openTerminal",
           "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "binstrike.copyReference",
+          "when": "resourceScheme == file"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "opencode.openTerminal",
-        "title": "Run opencode",
-        "key": "cmd+escape",
-        "mac": "cmd+escape",
-        "win": "ctrl+escape",
-        "linux": "ctrl+escape"
+        "command": "binstrike.openTerminal",
+        "key": "ctrl+escape",
+        "mac": "cmd+escape"
       },
       {
-        "command": "opencode.openNewTerminal",
-        "title": "Run opencode",
-        "key": "cmd+shift+escape",
-        "mac": "cmd+shift+escape",
-        "win": "ctrl+shift+escape",
-        "linux": "ctrl+shift+escape"
-      },
-      {
-        "command": "opencode.addFilepathToTerminal",
-        "title": "opencode: Insert At-Mentioned",
-        "key": "cmd+alt+k",
-        "mac": "cmd+alt+k",
-        "win": "ctrl+alt+K",
-        "linux": "ctrl+alt+K"
+        "command": "binstrike.openNewTerminal",
+        "key": "ctrl+shift+escape",
+        "mac": "cmd+shift+escape"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "BinStrike",
+      "properties": {
+        "binstrike.cliPath": {
+          "type": "string",
+          "default": "binstrike",
+          "scope": "machine",
+          "description": "CLI executable (not a shell command). Set an absolute path if it is not on PATH."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "bun run package",
@@ -91,7 +86,9 @@
     "pretest": "bun run compile-tests && bun run compile && bun run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "typecheck": "tsc --noEmit",
+    "vsix": "bunx --bun @vscode/vsce package --no-dependencies --out dist/binstrike.vsix"
   },
   "devDependencies": {
     "@types/vscode": "^1.94.0",
@@ -104,5 +101,17 @@
     "typescript": "^5.8.3",
     "@vscode/test-cli": "^0.0.11",
     "@vscode/test-electron": "^2.5.2"
+  },
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Launching the CLI requires a trusted workspace."
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
   }
 }

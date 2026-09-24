@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve symlinks so the installed command follows this development worktree.
+source="${BASH_SOURCE[0]}"
+while [[ -L "$source" ]]; do
+  dir="$(cd -P "$(dirname "$source")" && pwd)"
+  source="$(readlink "$source")"
+  [[ "$source" = /* ]] || source="$dir/$source"
+done
+root="$(cd -P "$(dirname "$source")/.." && pwd)"
+bun="${BUN_BIN:-$(command -v bun || true)}"
+if [[ -z "$bun" && -x "$HOME/.bun/bin/bun" ]]; then bun="$HOME/.bun/bin/bun"; fi
+if [[ -z "$bun" ]]; then
+  echo "BinStrike requires Bun. Install Bun or set BUN_BIN to its executable." >&2
+  exit 127
+fi
+export BINARYSTRIKE_CLI_NAME=binstrike
+# Preserve the caller's directory; explicitly load the CLI's JSX transform.
+exec "$bun" run --cwd "$root/packages/cli" src/index.ts "$@"

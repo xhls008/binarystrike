@@ -35,7 +35,14 @@ const PermissionParams = {
   ),
 }
 
-const Root = Spec.make(typeof OPENCODE_CLI_NAME === "string" ? OPENCODE_CLI_NAME : "opencode", {
+const cliName =
+  process.env.BINARYSTRIKE_CLI_NAME === "binstrike"
+    ? "binstrike"
+    : typeof OPENCODE_CLI_NAME === "string"
+      ? OPENCODE_CLI_NAME
+      : "opencode"
+
+const Root = Spec.make(cliName, {
   description: "OpenCode command line interface",
   params: {
     ...ServerParams,

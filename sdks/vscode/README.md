@@ -1,34 +1,42 @@
-# opencode VS Code Extension
+# BinStrike for VS Code
 
-A Visual Studio Code extension that integrates [opencode](https://opencode.ai) directly into your development workflow.
+Terminal-based integration for BinStrike V2 (not a webview/chat sidebar).
+It launches the same `binstrike` CLI and uses its existing model configuration.
+This project currently defaults to the local OpenAI-compatible endpoint at
+`http://127.0.0.1:8099/v1`; no credentials are stored by the extension.
 
-## Prerequisites
+## Install locally
 
-This extension requires the [opencode CLI](https://opencode.ai) to be installed on your system. Visit [opencode.ai](https://opencode.ai) for installation instructions.
+First install the CLI from the V2 repository (Bun and repository dependencies required):
 
-## Features
+```sh
+mkdir -p ~/.local/bin
+ln -s "$PWD/script/binstrike" ~/.local/bin/binstrike
+binstrike --help
+```
 
-- **Quick Launch**: Use `Cmd+Esc` (Mac) or `Ctrl+Esc` (Windows/Linux) to open opencode in a split terminal view, or focus an existing terminal session if one is already running.
-- **New Session**: Use `Cmd+Shift+Esc` (Mac) or `Ctrl+Shift+Esc` (Windows/Linux) to start a new opencode terminal session, even if one is already open. You can also click the opencode button in the UI.
-- **Context Awareness**: Automatically share your current selection or tab with opencode.
-- **File Reference Shortcuts**: Use `Cmd+Option+K` (Mac) or `Alt+Ctrl+K` (Linux/Windows) to insert file references. For example, `@File#L37-42`.
+Then build the extension:
 
-## Support
+```sh
+cd sdks/vscode
+bun install
+bun run vsix
+code --install-extension dist/binstrike.vsix
+```
 
-This is an early release. If you encounter issues or have feedback, please create an issue at https://github.com/anomalyco/opencode/issues.
+Alternatively, use **Extensions: Install from VSIX** in VS Code. This package is
+for local installation; it has not been published to a marketplace.
 
-## Development
+## Usage
 
-1. `code sdks/vscode` - Open the `sdks/vscode` directory in VS Code. **Do not open from repo root.**
-2. `bun install` - Run inside the `sdks/vscode` directory.
-3. Press `F5` to start debugging - This launches a new VS Code window with the extension loaded.
+- **BinStrike: Open Terminal** (`Ctrl+Esc` / `Cmd+Esc`): launch or focus the current workspace's CLI.
+- **BinStrike: New Terminal**: start another session.
+- **BinStrike: Copy File Reference**: copy the current file/selected line reference for manual pasting. Nothing is automatically submitted or executed.
+- `binstrike.cliPath`: executable path, not a shell command. Use the absolute path to `script/binstrike` if VS Code cannot find the command.
 
-#### Making Changes
+Trust the workspace before launching. Multi-root workspaces use the active
+file's folder, or ask you to select a folder. With Remote SSH/containers, install
+both the extension and CLI on that remote host; localhost:8099 then means that host.
 
-`tsc` and `esbuild` watchers run automatically during debugging (visible in the Terminal tab). Changes to the extension are automatically rebuilt in the background.
-
-To test your changes:
-
-1. In the debug VS Code window, press `Cmd+Shift+P`
-2. Search for `Developer: Reload Window`
-3. Reload to see your changes without restarting the debug session
+If launch fails, inspect the terminal error and check `binstrike.cliPath` and Bun.
+No legacy `/tui/append-prompt` endpoint or extra unauthenticated server is used.
